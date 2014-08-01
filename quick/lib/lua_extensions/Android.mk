@@ -14,6 +14,22 @@ LOCAL_SRC_FILES := \
                         $(LOCAL_PATH)/lpack/lpack.c \
                         $(LOCAL_PATH)/lsqlite3/sqlite3.c \
                         $(LOCAL_PATH)/lsqlite3/lsqlite3.c \
+                        $(LOCAL_PATH)/socket/auxiliar.c \
+                        $(LOCAL_PATH)/socket/except.c \
+                        $(LOCAL_PATH)/socket/inet.c \
+                        $(LOCAL_PATH)/socket/luasocket.c \
+                        $(LOCAL_PATH)/socket/luasocket_buffer.c \
+                        $(LOCAL_PATH)/socket/luasocket_io.c \
+                        $(LOCAL_PATH)/socket/mime.c \
+                        $(LOCAL_PATH)/socket/options.c \
+                        $(LOCAL_PATH)/socket/select.c \
+                        $(LOCAL_PATH)/socket/serial.c \
+                        $(LOCAL_PATH)/socket/socket_scripts.c \
+                        $(LOCAL_PATH)/socket/tcp.c \
+                        $(LOCAL_PATH)/socket/timeout.c \
+                        $(LOCAL_PATH)/socket/udp.c \
+                        $(LOCAL_PATH)/socket/unix.c \
+                        $(LOCAL_PATH)/socket/usocket.c \
                         $(LOCAL_PATH)/lua_extensions.c
 
 
@@ -26,6 +42,7 @@ LOCAL_EXPORT_C_INCLUDES := $(QUICK_V3_LIB)/lua_bindings/luajit/include \
                            $(LOCAL_PATH)/debugger \
                            $(LOCAL_PATH)/filesystem \
                            $(LOCAL_PATH)/lpack \
+                           $(LOCAL_PATH)/socket \
                            $(LOCAL_PATH)/lsqlite3
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/ \
@@ -37,6 +54,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/ \
                     $(LOCAL_PATH)/debugger \
                     $(LOCAL_PATH)/filesystem \
                     $(LOCAL_PATH)/lpack \
+                    $(LOCAL_PATH)/socket \
                     $(LOCAL_PATH)/lsqlite3 \
                     $(COCOS2DX_CORE) \
                     $(COCOS2DX_CORE)/platform \

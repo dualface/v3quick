@@ -25,7 +25,6 @@ function TestUIListViewScene:createListView5()
         -- bgColor = cc.c4b(200, 200, 200, 120),
         bg = "sunset.png",
         viewRect = cc.rect(40, 80, 120, 400),
-        padding = {left = 5, right = 5, top = 20, bottom = 20},
         direction = cc.ui.UIScrollView.DIRECTION_VERTICAL,
         scrollbarImgV = "bar.png"}
         :onTouch(handler(self, self.touchListener))

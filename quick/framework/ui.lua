@@ -124,7 +124,9 @@ function ui.newEditBox(params)
     local editbox = cc.EditBox:create(params.size, imageNormal, imagePressed, imageDisabled)
 
     if editbox then
-        editbox:addEditBoxEventListener(params.listener)
+        if params.listener then
+            editbox:registerScriptEditBoxHandler(params.listener)
+        end
         if params.x and params.y then
             editbox:setPosition(params.x, params.y)
         end

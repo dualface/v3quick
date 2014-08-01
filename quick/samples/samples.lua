@@ -2,6 +2,13 @@
 local data =
 {
     {
+        title       = "Armature Test",
+        description = "骨骼动画演示",
+        path        = "samples/armature",
+   
+    },
+
+    {
         title       = "sprite 3D",
         description = "3D 精灵演示",
         path        = "samples/sprite3d",

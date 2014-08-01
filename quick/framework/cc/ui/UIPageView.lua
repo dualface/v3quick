@@ -2,8 +2,9 @@
 local UIPageViewItem = import(".UIPageViewItem")
 
 local UIPageView = class("UIPageView", function()
-	local node = display.newNode()
-	node:setContentSize(display.width, display.height)
+	-- local node = display.newNode()
+	local node = cc.ClippingRegionNode:create()
+	-- node:setContentSize(display.width, display.height)
 	return node
 end)
 
@@ -16,6 +17,7 @@ function UIPageView:ctor(params)
 	self.rowSpace_ = params.rowSpace or 0
 	self.padding_ = params.padding or {left = 0, right = 0, top = 0, bottom = 0}
 
+	self:setClippingRegion(self.viewRect_)
 	-- self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, function(...)
 	-- 		self:update_(...)
 	-- 	end)
@@ -130,6 +132,8 @@ function UIPageView:createPage_(pageNo)
 		end
 	end
 
+	page:setTag(1500 + pageNo)
+
 	return page
 end
 
@@ -170,17 +174,18 @@ end
 function UIPageView:resetPagePos(dis)
 	local pageIdx = self.curPageIdx_
 	local page
+	local pageWidth = self.viewRect_.width
 
 	local disABS = math.abs(dis)
-	local x = self.viewRect_.x
+	local x = self.pages_[pageIdx]:getPosition()
 
 	for i=1,disABS do
 		if dis > 0 then
 			pageIdx = pageIdx + 1
-			x = x + display.width
+			x = x + pageWidth
 		else
 			pageIdx = pageIdx - 1
-			x = x - display.width
+			x = x - pageWidth
 		end
 		page = self.pages_[pageIdx]
 		if page then
@@ -193,10 +198,11 @@ end
 function UIPageView:scrollPagePos(dis)
 	local pageIdx = self.curPageIdx_
 	local page
+	local pageWidth = self.viewRect_.width
 
 	local disABS = math.abs(dis)
 	local x = self.viewRect_.x
-	local movedis = dis*display.width
+	local movedis = dis*pageWidth
 
 	for i=1,disABS do
 		if dis > 0 then
@@ -261,6 +267,9 @@ function UIPageView:scrollAuto()
 	local posX, posY = page:getPosition()
 	local dis = posX - self.viewRect_.x
 
+	local pageRX = self.viewRect_.x + self.viewRect_.width
+	local pageLX = self.viewRect_.x - self.viewRect_.width
+
 	if (dis > self.viewRect_.width/2 or self.speed > 10)
 		and self.curPageIdx_ > 1 then
 		bChange = true
@@ -272,7 +281,7 @@ function UIPageView:scrollAuto()
 	if dis > 0 then
 		if bChange then
 			transition.moveTo(page,
-				{x = display.width, y = posY, time = 0.3,
+				{x = pageRX, y = posY, time = 0.3,
 				onComplete = function()
 					self.curPageIdx_ = self.curPageIdx_ - 1
 					self:disablePage()
@@ -289,13 +298,13 @@ function UIPageView:scrollAuto()
 				end})
 			if self.pages_[self.curPageIdx_ - 1] then
 				transition.moveTo(self.pages_[self.curPageIdx_ - 1],
-					{x = -self.viewRect_.width, y = posY, time = 0.3})
+					{x = pageLX, y = posY, time = 0.3})
 			end
 		end
 	else
 		if bChange then
 			transition.moveTo(page,
-				{x = -self.viewRect_.width, y = posY, time = 0.3,
+				{x = pageLX, y = posY, time = 0.3,
 				onComplete = function()
 					self.curPageIdx_ = self.curPageIdx_ + 1
 					self:disablePage()
@@ -312,7 +321,7 @@ function UIPageView:scrollAuto()
 				end})
 			if self.pages_[self.curPageIdx_ + 1] then
 				transition.moveTo(self.pages_[self.curPageIdx_ + 1],
-					{x = display.width, y = posY, time = 0.3})
+					{x = pageRX, y = posY, time = 0.3})
 			end
 		end
 	end
