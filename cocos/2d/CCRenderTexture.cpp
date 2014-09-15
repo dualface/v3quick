@@ -27,23 +27,13 @@ THE SOFTWARE.
 #include "2d/CCRenderTexture.h"
 
 #include "base/ccUtils.h"
-#include "platform/CCImage.h"
 #include "platform/CCFileUtils.h"
-#include "2d/CCGrid.h"
 #include "base/CCEventType.h"
-#include "base/CCConfiguration.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
 #include "base/CCEventListenerCustom.h"
 #include "base/CCEventDispatcher.h"
-#include "renderer/CCGLProgram.h"
-#include "renderer/ccGLStateCache.h"
-#include "renderer/CCTextureCache.h"
 #include "renderer/CCRenderer.h"
-#include "renderer/CCGroupCommand.h"
-#include "renderer/CCCustomCommand.h"
-
-#include "CCGL.h"
 
 
 NS_CC_BEGIN
@@ -356,7 +346,7 @@ void RenderTexture::beginWithClear(float r, float g, float b, float a, float dep
     Director::getInstance()->getRenderer()->addCommand(&_beginWithClearCommand);
 }
 
-//TODO find a better way to clear the screen, there is no need to rebind render buffer there.
+//TODO: find a better way to clear the screen, there is no need to rebind render buffer there.
 void RenderTexture::clear(float r, float g, float b, float a)
 {
     this->beginWithClear(r, g, b, a);
@@ -413,7 +403,9 @@ void RenderTexture::visit(Renderer *renderer, const Mat4 &parentTransform, uint3
     
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 
-    _orderOfArrival = 0;
+    // FIX ME: Why need to set _orderOfArrival to 0??
+    // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
+    // setOrderOfArrival(0);
 }
 
 bool RenderTexture::saveToFile(const std::string& filename, bool isRGBA, std::function<void (RenderTexture*, const std::string&)> callback)
@@ -504,7 +496,7 @@ Image* RenderTexture::newImage(bool fliimage)
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
         glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
 
-        //TODO move this to configration, so we don't check it every time
+        // TODO: move this to configration, so we don't check it every time
         /*  Certain Qualcomm Andreno gpu's will retain data in memory after a frame buffer switch which corrupts the render to the texture. The solution is to clear the frame buffer before rendering to the texture. However, calling glClear has the unintended result of clearing the current texture. Create a temporary texture to overcome this. At the end of RenderTexture::begin(), switch the attached texture to the second one, call glClear, and then switch back to the original texture. This solution is unnecessary for other devices as they don't have the same issue with switching frame buffers.
          */
         if (Configuration::getInstance()->checkForGLExtension("GL_QCOM"))
@@ -604,7 +596,7 @@ void RenderTexture::onBegin()
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_oldFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, _FBO);
 
-    //TODO move this to configration, so we don't check it every time
+    // TODO: move this to configration, so we don't check it every time
     /*  Certain Qualcomm Andreno gpu's will retain data in memory after a frame buffer switch which corrupts the render to the texture. The solution is to clear the frame buffer before rendering to the texture. However, calling glClear has the unintended result of clearing the current texture. Create a temporary texture to overcome this. At the end of RenderTexture::begin(), switch the attached texture to the second one, call glClear, and then switch back to the original texture. This solution is unnecessary for other devices as they don't have the same issue with switching frame buffers.
      */
     if (Configuration::getInstance()->checkForGLExtension("GL_QCOM"))

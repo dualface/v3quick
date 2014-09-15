@@ -28,10 +28,10 @@
 #include "3d/CCBundle3D.h"
 #include "3d/CCSprite3DMaterial.h"
 #include "3d/CCAttachNode.h"
-#include "3d/CCSkeleton3D.h"
+#include "3d/CCMesh.h"
 
 #include "base/CCDirector.h"
-#include "base/CCPlatformMacros.h"
+#include "platform/CCPlatformMacros.h"
 #include "base/ccMacros.h"
 #include "platform/CCFileUtils.h"
 #include "renderer/CCTextureCache.h"
@@ -53,6 +53,7 @@ Sprite3D* Sprite3D::create(const std::string &modelPath)
     auto sprite = new (std::nothrow) Sprite3D();
     if (sprite && sprite->initWithFile(modelPath))
     {
+        sprite->_contentSize = sprite->getBoundingBox().size;
         sprite->autorelease();
         return sprite;
     }
@@ -231,6 +232,7 @@ Sprite3D* Sprite3D::createSprite3DNode(NodeData* nodedata,ModelData* modeldata,c
     auto sprite = new (std::nothrow) Sprite3D();
     if (sprite)
     {
+        sprite->setName(nodedata->id);
         auto mesh = Mesh::create(nodedata->id, getMeshIndexData(modeldata->subMeshId));
         if (modeldata->matrialId == "" && matrialdatas.materials.size())
         {
@@ -255,6 +257,7 @@ Sprite3D* Sprite3D::createSprite3DNode(NodeData* nodedata,ModelData* modeldata,c
                         texParams.wrapT = textureData->wrapT;
                         tex->setTexParameters(texParams);
                         mesh->setTexture(tex);
+                        mesh->_isTransparent = (materialData->getTextureData(NTextureData::Usage::Transparency) != nullptr);
                     }
 
                 }
@@ -373,6 +376,7 @@ void Sprite3D::createNode(NodeData* nodedata, Node* root, const MaterialDatas& m
                                     texParams.wrapT = textureData->wrapT;
                                     tex->setTexParameters(texParams);
                                     mesh->setTexture(tex);
+                                    mesh->_isTransparent = (materialData->getTextureData(NTextureData::Usage::Transparency) != nullptr);
                                 }
 
                             }
@@ -399,6 +403,7 @@ void Sprite3D::createNode(NodeData* nodedata, Node* root, const MaterialDatas& m
         node= Node::create();
         if(node)
         {
+            node->setName(nodedata->id);
             node->setAdditionalTransform(&nodedata->transform);
             if(root)
             {
@@ -507,7 +512,10 @@ void Sprite3D::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
         }
         //support tint and fade
         meshCommand.setDisplayColor(Vec4(color.r, color.g, color.b, color.a));
-        renderer->addCommand(&meshCommand);
+        if  (mesh->_isTransparent)
+            renderer->addCommandToTransparentQueue(&meshCommand);
+        else
+            renderer->addCommand(&meshCommand);
     }
 }
 

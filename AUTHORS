@@ -809,6 +809,7 @@ Developers:
         Added Device::setKeepScreenOn()
         Fixed Label performance problem
         Added Node::stopAllActionsByTag && ActionManager::removeAllActionsByTag
+        Added getAllTouches() in GLViewProtocol
         
     youknowone
         Adds iOS-like elastic bounceback support for cocos2d::extension::ScrollView
@@ -896,6 +897,7 @@ Developers:
         
     kezhuw
         AutoReleasePool manager improvement
+        Fixed a bug that condition variable sleep on unrelated mutex in HttpClient
         
     zhouxiaoxiaoxujian
         Added TextField::getStringLength()
@@ -920,6 +922,7 @@ Developers:
         Fix video scale issue in iOS
         Fix iOS VideoPlayer memory leak
         Added c++11 random library support
+        Added WebView widget which supports iOS and Android
         
     billtt
         Fixed a bug that Node::setScale(float) may not work properly
@@ -988,6 +991,18 @@ Developers:
         
     xiangxw
         Fixed the bug that Console::sendPrompt() will send extra `\0`
+        
+    kaishiqi
+        Fixed a but that cursor postion is wrong on desktop.
+        
+    jagd
+        Added setSubsteps() and getSubsteps() in PhysicsWorld
+        
+    denpen
+        Fixed a bug that scroll view hidden picks up the touch events.
+        
+    joewan
+        Fixed memory leak when use menu_selector
     
 Retired Core Developers:
     WenSheng Yang

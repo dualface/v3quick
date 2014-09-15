@@ -22,6 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#include "renderer/CCMeshCommand.h"
 #include "base/ccMacros.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
@@ -29,9 +30,7 @@
 #include "base/CCEventListenerCustom.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventType.h"
-#include "renderer/CCMeshCommand.h"
 #include "renderer/ccGLStateCache.h"
-#include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTextureAtlas.h"
@@ -174,14 +173,13 @@ void MeshCommand::restoreRenderState()
 
 void MeshCommand::genMaterialID(GLuint texID, void* glProgramState, GLuint vertexBuffer, GLuint indexBuffer, const BlendFunc& blend)
 {
-    int* intstate = static_cast<int*>(glProgramState);
-    
-    int statekey[] = {intstate[0], 0};
-    if (sizeof(void*) > sizeof(int))
-    {
-        statekey[1] = intstate[1];
-    }
-    int intArray[] = {(int)texID, statekey[0], statekey[1], (int)vertexBuffer, (int)indexBuffer, (int)blend.src, (int)blend.dst};
+    int intArray[7] = {0};
+    intArray[0] = (int)texID;
+    *(int**)&intArray[1] = (int*) glProgramState;
+    intArray[3] = (int) vertexBuffer;
+    intArray[4] = (int) indexBuffer;
+    intArray[5] = (int) blend.src;
+    intArray[6] = (int) blend.dst;
     _materialID = XXH32((const void*)intArray, sizeof(intArray), 0);
 }
 

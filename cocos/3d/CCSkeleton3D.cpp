@@ -23,11 +23,7 @@
  ****************************************************************************/
 
 #include "3d/CCSkeleton3D.h"
-#include "3d/CCBundle3D.h"
 
-#include "base/ccMacros.h"
-#include "base/CCPlatformMacros.h"
-#include "platform/CCFileUtils.h"
 
 NS_CC_BEGIN
 
@@ -235,6 +231,7 @@ void Bone3D::updateLocalMat()
                     }
                     quat = Quaternion(it.localRot.x * weight + quat.x, it.localRot.y * weight + quat.y, it.localRot.z * weight + quat.z, it.localRot.w * weight + quat.w);
                 }
+                quat.normalize();
             }
         }
         

@@ -24,7 +24,6 @@ THE SOFTWARE.
 
 #include "cocostudio/CCActionNode.h"
 #include "cocostudio/CCActionFrameEasing.h"
-#include "cocostudio/DictionaryHelper.h"
 #include "ui/UIWidget.h"
 #include "ui/UIHelper.h"
 #include "cocostudio/CocoLoader.h"
@@ -314,18 +313,14 @@ void ActionNode::initWithDictionary(const rapidjson::Value& dic, Ref* root)
     }
 
 void ActionNode::initActionNodeFromRoot(Ref* root)
-{	
-    Node* rootNode = dynamic_cast<Node*>(root);
-    if (rootNode != nullptr)
+{
+    Widget* rootWidget = dynamic_cast<Widget*>(root);
+    if (rootWidget != nullptr)
     {
-        Widget* rootWidget = dynamic_cast<Widget*>(root);
-        if (rootWidget != nullptr)
+        Widget* widget = Helper::seekActionWidgetByActionTag(rootWidget, getActionTag());
+        if (widget != nullptr)
         {
-            Widget* widget = Helper::seekActionWidgetByActionTag(rootWidget, getActionTag());
-            if (widget != nullptr)
-            {
-                setObject(widget);
-            }
+            setObject(widget);
         }
     }
 }
@@ -367,14 +362,6 @@ Node* ActionNode::getActionNode()
     if (cNode != nullptr)
     {
         return cNode;
-    }
-    else
-    {
-        Widget* rootWidget = dynamic_cast<Widget*>(_object);
-        if (rootWidget != nullptr)
-        {
-            return rootWidget;
-        }
     }
     return nullptr;
 }
