@@ -7,6 +7,7 @@
 
 USING_NS_CC;
 using namespace CocosDenshion;
+using namespace std;
 
 AppDelegate::AppDelegate()
 {
@@ -37,7 +38,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     lua_module_register(L);
     //The call was commented because it will lead to ZeroBrane Studio can't find correct context when debugging
     //engine->executeScriptFile("src/hello.lua");
-    engine->executeString("require 'src/hello.lua'");
+//    engine->executeString("require 'src/hello.lua'");
+    
+    LuaStack *stack = engine->getLuaStack();
+    stack->addSearchPath("src");
+    engine->executeString("require 'main.lua'");
 
     return true;
 }
