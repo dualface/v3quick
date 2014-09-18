@@ -244,6 +244,10 @@
 		566F016019B5EB0F00FCA620 /* CustomGUIReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 566F015D19B5EB0F00FCA620 /* CustomGUIReader.cpp */; };
 		566F016119B5EB0F00FCA620 /* CustomGUIReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 566F015E19B5EB0F00FCA620 /* CustomGUIReader.h */; };
 		566F016219B5EB0F00FCA620 /* CustomGUIReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 566F015E19B5EB0F00FCA620 /* CustomGUIReader.h */; };
+		DA8A7F0E19CA8D9900B040AA /* LuaTouchTargetNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8A7F0C19CA8D9900B040AA /* LuaTouchTargetNode.cpp */; };
+		DA8A7F0F19CA8D9900B040AA /* LuaTouchTargetNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8A7F0C19CA8D9900B040AA /* LuaTouchTargetNode.cpp */; };
+		DA8A7F1019CA8D9900B040AA /* LuaTouchTargetNode.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8A7F0D19CA8D9900B040AA /* LuaTouchTargetNode.h */; };
+		DA8A7F1119CA8D9900B040AA /* LuaTouchTargetNode.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8A7F0D19CA8D9900B040AA /* LuaTouchTargetNode.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -379,6 +383,8 @@
 		566F015D19B5EB0F00FCA620 /* CustomGUIReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CustomGUIReader.cpp; sourceTree = "<group>"; };
 		566F015E19B5EB0F00FCA620 /* CustomGUIReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomGUIReader.h; sourceTree = "<group>"; };
 		C0D9BAFA1974D30000EC35BB /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = ../../../../external/lua/lua/prebuilt/ios/liblua.a; sourceTree = "<group>"; };
+		DA8A7F0C19CA8D9900B040AA /* LuaTouchTargetNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaTouchTargetNode.cpp; sourceTree = "<group>"; };
+		DA8A7F0D19CA8D9900B040AA /* LuaTouchTargetNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaTouchTargetNode.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -614,6 +620,7 @@
 		1ABCA1E218CD8F230087CE3A /* external */ = {
 			isa = PBXGroup;
 			children = (
+				DA8A7F0519CA880300B040AA /* quick */,
 				1540AF54193EC30500717D8E /* xxtea */,
 				1ABCA1E318CD8F2D0087CE3A /* luajit */,
 				1ABCA20E18CD8F7D0087CE3A /* luasocket */,
@@ -723,6 +730,16 @@
 			path = audioengine;
 			sourceTree = "<group>";
 		};
+		DA8A7F0519CA880300B040AA /* quick */ = {
+			isa = PBXGroup;
+			children = (
+				DA8A7F0C19CA8D9900B040AA /* LuaTouchTargetNode.cpp */,
+				DA8A7F0D19CA8D9900B040AA /* LuaTouchTargetNode.h */,
+			);
+			name = quick;
+			path = ../../../../external/lua/quick;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -742,6 +759,7 @@
 				15415ABB19A71A53004F1E71 /* luasocket.h in Headers */,
 				155C7E2419A71CD800F08B25 /* lua_cocos2dx_experimental_video_manual.hpp in Headers */,
 				15415ACF19A71A53004F1E71 /* tcp.h in Headers */,
+				DA8A7F1019CA8D9900B040AA /* LuaTouchTargetNode.h in Headers */,
 				15415AAB19A71A53004F1E71 /* buffer.h in Headers */,
 				15AC69DE1987711400D17520 /* lauxlib.h in Headers */,
 				155C7E1419A71CA800F08B25 /* Lua_web_socket.h in Headers */,
@@ -827,6 +845,7 @@
 				15EFA641198B32BB000C57D3 /* CCLuaObjcBridge.h in Headers */,
 				15EFA642198B32BB000C57D3 /* tolua_fix.h in Headers */,
 				155C7E2119A71CCE00F08B25 /* LuaSkeletonAnimation.h in Headers */,
+				DA8A7F1119CA8D9900B040AA /* LuaTouchTargetNode.h in Headers */,
 				15415AB819A71A53004F1E71 /* io.h in Headers */,
 				566F016219B5EB0F00FCA620 /* CustomGUIReader.h in Headers */,
 				15EFA62B198B3220000C57D3 /* LuaOpengl.h in Headers */,
@@ -942,6 +961,7 @@
 				15C1C2E219874BA100A46ACC /* LuaBasicConversions.cpp in Sources */,
 				15415AC519A71A53004F1E71 /* select.c in Sources */,
 				155C7DFE19A71C5A00F08B25 /* CCBProxy.cpp in Sources */,
+				DA8A7F0E19CA8D9900B040AA /* LuaTouchTargetNode.cpp in Sources */,
 				15415AD919A71A53004F1E71 /* unix.c in Sources */,
 				155C7E0619A71C7600F08B25 /* lua_cocos2dx_extension_manual.cpp in Sources */,
 				15C1C2DD19874B8800A46ACC /* CCLuaBridge.cpp in Sources */,
@@ -1026,6 +1046,7 @@
 				155C7E0F19A71C9800F08B25 /* lua_extensions.c in Sources */,
 				15415AD619A71A53004F1E71 /* udp.c in Sources */,
 				15415ABA19A71A53004F1E71 /* luasocket.c in Sources */,
+				DA8A7F0F19CA8D9900B040AA /* LuaTouchTargetNode.cpp in Sources */,
 				155C7E1F19A71CC800F08B25 /* LuaSkeletonAnimation.cpp in Sources */,
 				15415ACA19A71A53004F1E71 /* serial.c in Sources */,
 				155C7DEA19A71BDA00F08B25 /* lua_cocos2dx_3d_auto.cpp in Sources */,
