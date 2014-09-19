@@ -137,3 +137,23 @@ end
 function Node:isKeypadEnabled()
     return self:isKeyboardEnabled()
 end
+
+function Node:addNodeEventListener( evt, hdl, tag, priority )
+    -- priority = priority or 0
+    local luaListeners_
+    if not self._scriptEventListeners_ then
+        self._scriptEventListeners_ = {}
+        luaListeners_ = self._scriptEventListeners_
+
+        local function baseNodeEventListener( evt )
+            print('----base Node Event: ' .. evt .. '(' .. tostring(self) .. ')')
+        end
+
+        self:registerScriptHandler(baseNodeEventListener)
+    end
+
+    local idx = self._nextScriptEventHandleIndex_ or 0
+    idx = idx + 1
+    self._nextScriptEventHandleIndex_ = idx
+
+end

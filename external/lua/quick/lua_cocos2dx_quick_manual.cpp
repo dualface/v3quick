@@ -6,7 +6,7 @@
 #include "LuaEventManager.h"
 #include "LuaTouchEventManager.h"
 
-static int tolua_cocos2d_Node_addNodeEventListener(lua_State* tolua_S)
+static int tolua_cocos2d_Node_addLuaEventListener(lua_State* tolua_S)
 {
 #if COCOS2D_DEBUG >= 1
     tolua_Error tolua_err;
@@ -57,7 +57,7 @@ static void extendNode(lua_State* tolua_S)
     if (lua_istable(tolua_S,-1))
     {
         lua_pushstring(tolua_S, "addNodeEventListener");
-        lua_pushcfunction(tolua_S, tolua_cocos2d_Node_addNodeEventListener);
+        lua_pushcfunction(tolua_S, tolua_cocos2d_Node_addLuaEventListener);
         lua_rawset(tolua_S,-3);
     }
     lua_pop(tolua_S, 1);

@@ -7204,6 +7204,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1A0EE31118CDF733004CD58F /* Build configuration list for PBXNativeTarget "lua-empty-test Mac" */;
 			buildPhases = (
+				DA8A7F3619CC2FE000B040AA /* ShellScript */,
 				1A0EE2C318CDF733004CD58F /* Sources */,
 				1A0EE2C818CDF733004CD58F /* Frameworks */,
 				1A0EE2D818CDF733004CD58F /* Resources */,
@@ -7889,6 +7890,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DA8A7F3619CC2FE000B040AA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "_TARGET_BUILD_CONTENTS_PATH=$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH\necho _TARGET_BUILD_CONTENTS_PATH: $_TARGET_BUILD_CONTENTS_PATH\necho PWD: $PWD\n\necho Cleaning $_TARGET_BUILD_CONTENTS_PATH/\n\nrm -fr $_TARGET_BUILD_CONTENTS_PATH/src/*\n                                        \nmkdir -p $_TARGET_BUILD_CONTENTS_PATH/src/\n                                        \ncp -RLp $PWD/../tests/lua-empty-test/src/* $_TARGET_BUILD_CONTENTS_PATH/src/";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		15CBA020196EE56C005877BB /* Sources */ = {
