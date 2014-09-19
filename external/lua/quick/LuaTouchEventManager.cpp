@@ -36,9 +36,31 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
+LuaTouchEventManager* LuaTouchEventManager::s_sharedLuaTouchEventManager = nullptr;
+
+LuaTouchEventManager* LuaTouchEventManager::getInstance()
+{
+    if (s_sharedLuaTouchEventManager == nullptr)
+    {
+        s_sharedLuaTouchEventManager = new (std::nothrow) LuaTouchEventManager();
+        if(!s_sharedLuaTouchEventManager->init())
+        {
+            delete s_sharedLuaTouchEventManager;
+            s_sharedLuaTouchEventManager = nullptr;
+            CCLOG("ERROR: Could not init LuaTouchEventManager");
+        }
+    }
+    return s_sharedLuaTouchEventManager;
+}
+
+void LuaTouchEventManager::destroyInstance()
+{
+    CC_SAFE_DELETE(s_sharedLuaTouchEventManager);
+}
+
 LuaTouchEventManager::LuaTouchEventManager()
 : m_touchDispatchingEnabled(false)
-, _touchListener(NULL)
+, _touchListener(nullptr)
 {
     _touchableNodes.reserve(100);
     _touchingTargets.reserve(10);
@@ -68,29 +90,24 @@ bool LuaTouchEventManager::initWithSize(const Size& size)
     return true;
 }
 
-LuaTouchEventManager* LuaTouchEventManager::create()
-{
-    LuaTouchEventManager *ret = new LuaTouchEventManager();
-    if (ret && ret->init())
-    {
-        ret->autorelease();
-        return ret;
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-        return nullptr;
-    }
-}
+//LuaTouchEventManager* LuaTouchEventManager::create()
+//{
+//    LuaTouchEventManager *ret = new LuaTouchEventManager();
+//    if (ret && ret->init())
+//    {
+//        ret->autorelease();
+//        return ret;
+//    }
+//    else
+//    {
+//        CC_SAFE_DELETE(ret);
+//        return nullptr;
+//    }
+//}
 
 std::string LuaTouchEventManager::getDescription() const
 {
     return StringUtils::format("<LuaTouchEventManager | tag = %d>", _tag);
-}
-
-int LuaTouchEventManager::addScriptEventListener(Node* node, int event, int listener, int tag /* = 0 */, int priority /* = 0 */)
-{
-//    return _scriptEventDispatcher->addScriptEventListener(event, listener, tag, priority);
 }
 
 void LuaTouchEventManager::addTouchableNode(Node *node)
@@ -139,9 +156,9 @@ void LuaTouchEventManager::onTouchesBegan(const std::vector<Touch*>& touches, Ev
 
     // find touching target
     bool isTouchable = true;
-    Node *node = NULL;
-    Node *checkTouchableNode = NULL;
-    LuaTouchTargetNode *touchTarget = NULL;
+    Node *node = nullptr;
+    Node *checkTouchableNode = nullptr;
+    LuaTouchTargetNode *touchTarget = nullptr;
 
     for (auto iter=_touchableNodes.begin(); iter!=_touchableNodes.end(); ++iter) {
         checkTouchableNode = node = *iter;
@@ -159,11 +176,11 @@ void LuaTouchEventManager::onTouchesBegan(const std::vector<Touch*>& touches, Ev
         if (!isTouchable) continue;
 
         // prepare for touch testing
-        touchTarget = NULL;
+        touchTarget = nullptr;
         const Rect boundingBox = utils::getCascadeBoundingBox(node);
 
         // set touch target
-        Touch *touch = NULL;
+        Touch *touch = nullptr;
         for (auto it = touches.begin(); it != touches.end(); ++it)
         {
             touch = (Touch*)*it;
@@ -197,7 +214,7 @@ void LuaTouchEventManager::onTouchesBegan(const std::vector<Touch*>& touches, Ev
         {
             path.pushBack(node);
             node = node->getParent();
-        } while (node != NULL && node != this);
+        } while (node != nullptr && node != this);
 
         // phase: capturing
         // from parent to child
@@ -289,7 +306,7 @@ void LuaTouchEventManager::cleanup(void)
     _touchingTargets.clear();
     if (_touchListener) {
         _eventDispatcher->removeEventListener(_touchListener);
-        _touchListener = NULL;
+        _touchListener = nullptr;
     }
     _running = false;
 }
@@ -345,9 +362,9 @@ void LuaTouchEventManager::disableTouchDispatching()
 
 void LuaTouchEventManager::dispatchingTouchEvent(const std::vector<Touch*>& touches, Event *pEvent, int event)
 {
-    Node *node = NULL;
-    LuaTouchTargetNode *touchTarget = NULL;
-    Touch *touch = NULL;
+    Node *node = nullptr;
+    LuaTouchTargetNode *touchTarget = nullptr;
+    Touch *touch = nullptr;
 
     ssize_t count = _touchingTargets.size();
 //    CCLOG("TOUCH TARGETS COUNT [%u]", count);
@@ -383,7 +400,7 @@ void LuaTouchEventManager::dispatchingTouchEvent(const std::vector<Touch*>& touc
         {
             path.pushBack(node);
             node = node->getParent();
-        } while (node != NULL && node != this);
+        } while (node != nullptr && node != this);
 
         // phase: capturing
         // from parent to child

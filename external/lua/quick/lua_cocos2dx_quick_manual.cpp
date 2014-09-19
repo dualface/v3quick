@@ -3,6 +3,7 @@
 #include "LuaBasicConversions.h"
 #include "CCLuaValue.h"
 #include "CCLuaEngine.h"
+#include "LuaEventManager.h"
 #include "LuaTouchEventManager.h"
 
 static int tolua_cocos2d_Node_addNodeEventListener(lua_State* tolua_S)
@@ -33,11 +34,11 @@ static int tolua_cocos2d_Node_addNodeEventListener(lua_State* tolua_S)
             priority = ((int)  tolua_tonumber(tolua_S,5,0));
         }
 #if COCOS2D_DEBUG >= 1
-        if (!node) tolua_error(tolua_S,"invalid 'self' in function 'addScriptEventListener'", NULL);
+        if (!node) tolua_error(tolua_S,"invalid 'self' in function 'addNodeEventListener'", nullptr);
 #endif
         {
-            auto mng = LuaTouchEventManager::getInstance();
-            int tolua_ret = (int)  mng->addScriptEventListener(node, event,listener,tag,priority);
+            auto mng = LuaEventManager::getInstance();
+            int tolua_ret = (int)  mng->addLuaEventListener(node, event,listener,tag,priority);
             tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
         }
     }
@@ -64,7 +65,7 @@ static void extendNode(lua_State* tolua_S)
 
 int register_all_quick_manual(lua_State* tolua_S)
 {
-    if (NULL == tolua_S)
+    if (nullptr == tolua_S)
         return 0;
     
     extendNode(tolua_S);

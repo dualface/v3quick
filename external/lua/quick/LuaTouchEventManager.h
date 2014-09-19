@@ -50,14 +50,20 @@ public:
     static const int modeTouchesOneByOne = (int)Touch::DispatchMode::ONE_BY_ONE;
     static const int modeTouchesAllAtOnce = (int)Touch::DispatchMode::ALL_AT_ONCE;
     
+    /**
+     *  The singleton pointer of LuaTouchEventManager.
+     */
+    static LuaTouchEventManager* s_sharedLuaTouchEventManager;
+    
     /** returns a shared instance of the LuaTouchEventManager */
     static LuaTouchEventManager* getInstance();
     
-    /** creates a new object */
-    static LuaTouchEventManager *create();
-
-    int addScriptEventListener(Node* node, int event, int listener, int tag = 0, int priority = 0);
+    /**
+     *  Destroys the instance of LuaTouchEventManager.
+     */
+    static void destroyInstance();
     
+
     void addTouchableNode(Node *node);
     void removeTouchableNode(Node *node);
 

@@ -1,0 +1,83 @@
+/****************************************************************************
+Copyright (c) 2013-2014 Chukong Technologies Inc.
+
+ http://www.cocos2d-x.org
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
+
+#ifndef __LUA_EVENT_NODE_H_
+#define __LUA_EVENT_NODE_H_
+
+#include "2d/CCNode.h"
+#include "LuaEventDispatcher.h"
+
+NS_CC_BEGIN
+
+/**
+ * @addtogroup scene
+ * @{
+ */
+
+class CC_DLL LuaEventNode : public Ref
+{
+public:
+    static LuaEventNode *create(Node *node);
+
+    ~LuaEventNode();
+
+    Node *getNode();
+
+    int addScriptEventListener(int event, int listener, int tag = 0, int priority = 0);
+    
+    virtual bool ccTouchCaptureBegan(Touch *pTouch, Node *pTarget);
+    virtual bool ccTouchCaptureMoved(Touch *pTouch, Node *pTarget);
+    virtual void ccTouchCaptureEnded(Touch *pTouch, Node *pTarget);
+    virtual void ccTouchCaptureCancelled(Touch *pTouch, Node *pTarget);
+    
+    virtual void ccTouchesCaptureBegan(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureMoved(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureEnded(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureCancelled(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureAdded(const std::vector<Touch*>& touches, Node *pTarget);
+    virtual void ccTouchesCaptureRemoved(const std::vector<Touch*>& touches, Node *pTarget);
+    
+    virtual bool ccTouchBegan(Touch *pTouch, Event *pEvent);
+    virtual void ccTouchMoved(Touch *pTouch, Event *pEvent);
+    virtual void ccTouchEnded(Touch *pTouch, Event *pEvent);
+    virtual void ccTouchCancelled(Touch *pTouch, Event *pEvent);
+    
+    virtual void ccTouchesBegan(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesMoved(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesEnded(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesCancelled(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesAdded(const std::vector<Touch*>& touches, Event *pEvent);
+    virtual void ccTouchesRemoved(const std::vector<Touch*>& touches, Event *pEvent);
+
+private:
+    LuaEventNode(Node *node);
+
+    Node *_node;
+    
+    LuaEventDispatcher *_luaEventDispatcher;
+};
+
+NS_CC_END
+
+#endif // __LUA_EVENT_NODE_H_
