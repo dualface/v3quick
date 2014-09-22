@@ -10,7 +10,24 @@ function MainScene:ctor()
         :addTo(self)
 end
 
+function MainScene:onEnterFrame(dt)
+	print("dt:", dt)
+end
+
 function MainScene:onEnter()
+    self:addNodeEventListener(cc.NODE_ENTER_FRAME_EVENT, function(dt) self:onEnterFrame(dt) end)
+    self:scheduleUpdate()
+
+	self:addNodeEventListener(cc.KEYPAD_EVENT, function(event)
+        print("*******KEYPAD_EVENT*******")
+        dump(event)
+                -- if event.key == "back" then
+                --   app.exit()
+                -- end
+        self:unscheduleUpdate()
+        self:setKeypadEnabled(false)
+        end)
+	self:setKeypadEnabled(true)
 end
 
 function MainScene:onExit()

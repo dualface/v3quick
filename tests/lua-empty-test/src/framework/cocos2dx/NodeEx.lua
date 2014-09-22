@@ -131,11 +131,50 @@ function Node:setNodeEventEnabled(enabled, listener)
 end
 
 function Node:setKeypadEnabled(enable)
-    self:setKeyboardEnabled(enable)
+    _enable = self._keyboardEnabled or false
+    if enable == _enable then
+        return self
+    end
+
+    self._keyboardEnabled = enable
+
+    if self.__key_event_handle__ then
+        local eventDispatcher = self:getEventDispatcher()
+        eventDispatcher:removeEventListener(self.__key_event_handle__)
+        self.__key_event_handle__ = nil
+    end
+
+    if enable then
+        local onKeyPressed = function ( keycode, event )
+            return self:EventDispatcher(c.KEYPAD_EVENT, {keycode, event, "Pressed"})
+        end
+
+        local onKeyReleased = function ( keycode, event )
+            return self:EventDispatcher(c.KEYPAD_EVENT, {keycode, event, "Released"})
+        end
+
+        local listener = cc.EventListenerKeyboard:create()
+        listener:registerScriptHandler(onKeyPressed, cc.Handler.EVENT_KEYBOARD_PRESSED )
+        listener:registerScriptHandler(onKeyReleased, cc.Handler.EVENT_KEYBOARD_RELEASED )
+        local eventDispatcher = self:getEventDispatcher()
+        eventDispatcher:addEventListenerWithSceneGraphPriority(listener, self)
+        self.__key_event_handle__ = listener
+    end
+
+    return self
 end
 
 function Node:isKeypadEnabled()
-    return self:isKeyboardEnabled()
+    enable = self._keyboardEnabled or false
+    return enable
+end
+
+function Node:scheduleUpdate()
+    local listener = function (dt)
+        self:EventDispatcher(c.NODE_ENTER_FRAME_EVENT, dt)
+    end
+
+    self:scheduleUpdateWithPriorityLua(listener, 0) 
 end
 
 function Node:addNodeEventListener( evt, hdl, tag, priority )
@@ -174,32 +213,33 @@ function Node:addNodeEventListener( evt, hdl, tag, priority )
         table.insert(eventListeners_, lis)
     end
 
-    if evt==c.NODE_ENTER_FRAME_EVENT then
-            local listener = function (dt)
-                self:EventDispatcher(self, c.NODE_ENTER_FRAME_EVENT, dt)
-            end
-            self:scheduleUpdateWithPriorityLua(listener, priority) 
-    elseif evt==c.KEYPAD_EVENT then
-        local onKeyPressed = function ( keycode, event )
-            return self:EventDispatcher(event:getCurrentTarget(), c.KEYPAD_EVENT, {keycode, event, "Pressed"})
-        end
-
-        local onKeyReleased = function ( keycode, event )
-            return self:EventDispatcher(event:getCurrentTarget(), c.KEYPAD_EVENT, {keycode, event, "Released"})
-        end
-
-        local listener = cc.EventListenerKeyboard:create()
-        listener:registerScriptHandler(onKeyPressed, cc.Handler.EVENT_KEYBOARD_PRESSED )
-        listener:registerScriptHandler(onKeyReleased, cc.Handler.EVENT_KEYBOARD_RELEASED )
-        local eventDispatcher = self:getEventDispatcher()
-        eventDispatcher:addEventListenerWithSceneGraphPriority(listener, self)
-        lis.regHanler = listener
-        lis.regHanler:retain()
-    else
-        self:addLuaEventListener( evt, hdl, tag, priority ) 
-    end
+    -- if evt==c.NODE_ENTER_FRAME_EVENT then
+    --     -- do nothing
+    -- elseif evt==c.KEYPAD_EVENT then
+    -- else
+    --     -- self:addLuaEventListener( evt, hdl, tag, priority ) 
+    -- end
 
     return self._nextScriptEventHandleIndex_
+end
+
+function Node:removeNodeEventListenersByEvent( evt )
+    if self._scriptEventListeners_ and self._scriptEventListeners_[evt] then
+        if evt==c.KEYPAD_EVENT then
+            self:setKeypadEnabled(false)
+        elseif evt==c.NODE_ENTER_FRAME_EVENT then
+            self:unscheduleUpdate()
+        end
+
+        self._scriptEventListeners_[evt] = nil
+    end
+end
+
+function Node:removeAllNodeEventListeners()
+    self:removeNodeEventListenersByEvent(c.NODE_EVENT)
+    self:removeNodeEventListenersByEvent(c.NODE_ENTER_FRAME_EVENT)
+    self:removeNodeEventListenersByEvent(c.NODE_TOUCH_EVENT)
+    self:removeNodeEventListenersByEvent(c.KEYPAD_EVENT)
 end
 
 local function KeypadEventCodeConvert( code )
@@ -207,7 +247,7 @@ local function KeypadEventCodeConvert( code )
 end
 
 function Node:EventDispatcher( idx, data )
-    print("-----Entry Node:EventDispatcher: "..idx)
+    -- print("-----Entry Node:EventDispatcher: "..idx)
     local obj = self
     local flagNodeCleanup = false
     local event
@@ -235,7 +275,10 @@ function Node:EventDispatcher( idx, data )
         end
     end
 
-    -- if flagNodeCleanup then obj:removeAllNodeEventListeners() end
+    if flagNodeCleanup then 
+        obj:removeAllNodeEventListeners() 
+        self:unregisterScriptHandler()
+    end
 
     return rnval
 end
