@@ -34,7 +34,7 @@ static int tolua_cocos2d_Node_addLuaEventListener(lua_State* tolua_S)
             priority = ((int)  tolua_tonumber(tolua_S,5,0));
         }
 #if COCOS2D_DEBUG >= 1
-        if (!node) tolua_error(tolua_S,"invalid 'self' in function 'addNodeEventListener'", nullptr);
+        if (!node) tolua_error(tolua_S,"invalid 'self' in function 'addLuaEventListener'", nullptr);
 #endif
         {
             auto mng = LuaEventManager::getInstance();
@@ -56,7 +56,7 @@ static void extendNode(lua_State* tolua_S)
     lua_rawget(tolua_S,LUA_REGISTRYINDEX);
     if (lua_istable(tolua_S,-1))
     {
-        lua_pushstring(tolua_S, "addNodeEventListener");
+        lua_pushstring(tolua_S, "addLuaEventListener");
         lua_pushcfunction(tolua_S, tolua_cocos2d_Node_addLuaEventListener);
         lua_rawset(tolua_S,-3);
     }
