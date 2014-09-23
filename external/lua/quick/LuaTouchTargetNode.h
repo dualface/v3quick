@@ -25,7 +25,7 @@ Copyright (c) 2013-2014 Chukong Technologies Inc.
 #ifndef __LUA_TOUCH_TARGET_NODE_H_
 #define __LUA_TOUCH_TARGET_NODE_H_
 
-#include "2d/CCNode.h"
+#include "LuaEventNode.h"
 
 NS_CC_BEGIN
 
@@ -37,10 +37,10 @@ NS_CC_BEGIN
 class CC_DLL LuaTouchTargetNode : public Ref
 {
 public:
-    static LuaTouchTargetNode *create(Node *node);
+    static LuaTouchTargetNode *create(LuaEventNode *node);
     ~LuaTouchTargetNode();
 
-    Node *getNode();
+    LuaEventNode *getNode();
 
     int getTouchMode();
 
@@ -49,35 +49,11 @@ public:
 
     Touch *findTouch(const std::vector<Touch*>& touches);
     static Touch *findTouchFromTouchesSet(const std::vector<Touch*>& touches, int touchId);
-    
-    virtual bool ccTouchCaptureBegan(Touch *pTouch, Node *pTarget);
-    virtual bool ccTouchCaptureMoved(Touch *pTouch, Node *pTarget);
-    virtual void ccTouchCaptureEnded(Touch *pTouch, Node *pTarget);
-    virtual void ccTouchCaptureCancelled(Touch *pTouch, Node *pTarget);
-    
-    virtual void ccTouchesCaptureBegan(const std::vector<Touch*>& touches, Node *pTarget);
-    virtual void ccTouchesCaptureMoved(const std::vector<Touch*>& touches, Node *pTarget);
-    virtual void ccTouchesCaptureEnded(const std::vector<Touch*>& touches, Node *pTarget);
-    virtual void ccTouchesCaptureCancelled(const std::vector<Touch*>& touches, Node *pTarget);
-    virtual void ccTouchesCaptureAdded(const std::vector<Touch*>& touches, Node *pTarget);
-    virtual void ccTouchesCaptureRemoved(const std::vector<Touch*>& touches, Node *pTarget);
-    
-    virtual bool ccTouchBegan(Touch *pTouch, Event *pEvent);
-    virtual void ccTouchMoved(Touch *pTouch, Event *pEvent);
-    virtual void ccTouchEnded(Touch *pTouch, Event *pEvent);
-    virtual void ccTouchCancelled(Touch *pTouch, Event *pEvent);
-    
-    virtual void ccTouchesBegan(const std::vector<Touch*>& touches, Event *pEvent);
-    virtual void ccTouchesMoved(const std::vector<Touch*>& touches, Event *pEvent);
-    virtual void ccTouchesEnded(const std::vector<Touch*>& touches, Event *pEvent);
-    virtual void ccTouchesCancelled(const std::vector<Touch*>& touches, Event *pEvent);
-    virtual void ccTouchesAdded(const std::vector<Touch*>& touches, Event *pEvent);
-    virtual void ccTouchesRemoved(const std::vector<Touch*>& touches, Event *pEvent);
 
 private:
-    LuaTouchTargetNode(Node *node);
+    LuaTouchTargetNode(LuaEventNode *node);
 
-    Node *_node;
+    LuaEventNode *_node;
     int _touchMode;
     int _touchId;
 };

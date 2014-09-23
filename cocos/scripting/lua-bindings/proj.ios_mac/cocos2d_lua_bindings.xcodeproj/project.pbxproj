@@ -264,10 +264,10 @@
 		DA8A7F2D19CBFF5D00B040AA /* LuaEventNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8A7F2A19CBFF5D00B040AA /* LuaEventNode.cpp */; };
 		DA8A7F2E19CBFF5D00B040AA /* LuaEventNode.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8A7F2B19CBFF5D00B040AA /* LuaEventNode.h */; };
 		DA8A7F2F19CBFF5D00B040AA /* LuaEventNode.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8A7F2B19CBFF5D00B040AA /* LuaEventNode.h */; };
-		DA8A7F3219CC133800B040AA /* LuaEventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8A7F3019CC133800B040AA /* LuaEventManager.cpp */; };
-		DA8A7F3319CC133800B040AA /* LuaEventManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA8A7F3019CC133800B040AA /* LuaEventManager.cpp */; };
-		DA8A7F3419CC133800B040AA /* LuaEventManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8A7F3119CC133800B040AA /* LuaEventManager.h */; };
-		DA8A7F3519CC133800B040AA /* LuaEventManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8A7F3119CC133800B040AA /* LuaEventManager.h */; };
+		DAB6C7DC19D165C600899D7F /* LuaNodeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAB6C7DA19D165C600899D7F /* LuaNodeManager.cpp */; };
+		DAB6C7DD19D165C600899D7F /* LuaNodeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAB6C7DA19D165C600899D7F /* LuaNodeManager.cpp */; };
+		DAB6C7DE19D165C600899D7F /* LuaNodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DAB6C7DB19D165C600899D7F /* LuaNodeManager.h */; };
+		DAB6C7DF19D165C600899D7F /* LuaNodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DAB6C7DB19D165C600899D7F /* LuaNodeManager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -413,8 +413,8 @@
 		DA8A7F2519CBFCBB00B040AA /* LuaEventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEventDispatcher.h; sourceTree = "<group>"; };
 		DA8A7F2A19CBFF5D00B040AA /* LuaEventNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEventNode.cpp; sourceTree = "<group>"; };
 		DA8A7F2B19CBFF5D00B040AA /* LuaEventNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEventNode.h; sourceTree = "<group>"; };
-		DA8A7F3019CC133800B040AA /* LuaEventManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaEventManager.cpp; sourceTree = "<group>"; };
-		DA8A7F3119CC133800B040AA /* LuaEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaEventManager.h; sourceTree = "<group>"; };
+		DAB6C7DA19D165C600899D7F /* LuaNodeManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaNodeManager.cpp; sourceTree = "<group>"; };
+		DAB6C7DB19D165C600899D7F /* LuaNodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaNodeManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -763,8 +763,8 @@
 		DA8A7F0519CA880300B040AA /* quick */ = {
 			isa = PBXGroup;
 			children = (
-				DA8A7F3019CC133800B040AA /* LuaEventManager.cpp */,
-				DA8A7F3119CC133800B040AA /* LuaEventManager.h */,
+				DAB6C7DA19D165C600899D7F /* LuaNodeManager.cpp */,
+				DAB6C7DB19D165C600899D7F /* LuaNodeManager.h */,
 				DA8A7F2A19CBFF5D00B040AA /* LuaEventNode.cpp */,
 				DA8A7F2B19CBFF5D00B040AA /* LuaEventNode.h */,
 				DA8A7F2419CBFCBB00B040AA /* LuaEventDispatcher.cpp */,
@@ -837,8 +837,8 @@
 				15C1C2D8198749BC00A46ACC /* lua_cocos2dx_manual.hpp in Headers */,
 				155C7E0819A71C7B00F08B25 /* lua_cocos2dx_extension_manual.h in Headers */,
 				DA8A7F2019CAE12000B040AA /* LuaTouchEventManager.h in Headers */,
-				DA8A7F3419CC133800B040AA /* LuaEventManager.h in Headers */,
 				155C7E1819A71CB300F08B25 /* lua_xml_http_request.h in Headers */,
+				DAB6C7DE19D165C600899D7F /* LuaNodeManager.h in Headers */,
 				155C7DFC19A71C5300F08B25 /* lua_cocos2dx_coco_studio_manual.hpp in Headers */,
 				15C1C2D9198749BC00A46ACC /* lua_cocos2dx_physics_manual.hpp in Headers */,
 				15C1C2DA198749BC00A46ACC /* LuaScriptHandlerMgr.h in Headers */,
@@ -856,7 +856,6 @@
 			files = (
 				15EFA64D198B3342000C57D3 /* lauxlib.h in Headers */,
 				15415AA819A71A53004F1E71 /* auxiliar.h in Headers */,
-				DA8A7F3519CC133800B040AA /* LuaEventManager.h in Headers */,
 				155C7E1119A71C9F00F08B25 /* lua_extensions.h in Headers */,
 				DA8A7F2319CAE12800B040AA /* lua_cocos2dx_quick_manual.hpp in Headers */,
 				15415AC019A71A53004F1E71 /* mime.h in Headers */,
@@ -911,6 +910,7 @@
 				15EFA630198B3220000C57D3 /* LuaScriptHandlerMgr.h in Headers */,
 				15EFA622198B2E74000C57D3 /* lua_cocos2dx_experimental_auto.hpp in Headers */,
 				15EFA623198B2E74000C57D3 /* lua_cocos2dx_auto.hpp in Headers */,
+				DAB6C7DF19D165C600899D7F /* LuaNodeManager.h in Headers */,
 				155C7E0119A71C6300F08B25 /* CCBProxy.h in Headers */,
 				15415AC819A71A53004F1E71 /* select.h in Headers */,
 				155C7E1D19A71CC300F08B25 /* lua_cocos2dx_spine_manual.hpp in Headers */,
@@ -1034,6 +1034,7 @@
 				15C1C2CE1987498B00A46ACC /* LuaOpengl.cpp in Sources */,
 				DA8A7F1E19CAE12000B040AA /* LuaTouchEventManager.cpp in Sources */,
 				566F015F19B5EB0F00FCA620 /* CustomGUIReader.cpp in Sources */,
+				DAB6C7DC19D165C600899D7F /* LuaNodeManager.cpp in Sources */,
 				15415AC119A71A53004F1E71 /* options.c in Sources */,
 				155C7E0A19A71C8B00F08B25 /* lua_cocos2dx_network_manual.cpp in Sources */,
 				15415AD119A71A53004F1E71 /* timeout.c in Sources */,
@@ -1054,7 +1055,6 @@
 				15C1C2CD1987495500A46ACC /* lua_cocos2dx_auto.cpp in Sources */,
 				15415AB919A71A53004F1E71 /* luasocket.c in Sources */,
 				155C7E1219A71CA200F08B25 /* Lua_web_socket.cpp in Sources */,
-				DA8A7F3219CC133800B040AA /* LuaEventManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1072,6 +1072,7 @@
 				15EFA649198B3311000C57D3 /* tolua_push.c in Sources */,
 				15EFA64A198B3311000C57D3 /* tolua_to.c in Sources */,
 				15415AC219A71A53004F1E71 /* options.c in Sources */,
+				DAB6C7DD19D165C600899D7F /* LuaNodeManager.cpp in Sources */,
 				15EFA645198B32DB000C57D3 /* xxtea.cpp in Sources */,
 				15EFA632198B328B000C57D3 /* CCLuaBridge.cpp in Sources */,
 				15EFA633198B328B000C57D3 /* CCLuaEngine.cpp in Sources */,
@@ -1126,7 +1127,6 @@
 				DA8A7F2719CBFCBB00B040AA /* LuaEventDispatcher.cpp in Sources */,
 				15EFA62A198B31FB000C57D3 /* LuaScriptHandlerMgr.cpp in Sources */,
 				15EFA617198B2E2B000C57D3 /* lua_cocos2dx_experimental_auto.cpp in Sources */,
-				DA8A7F3319CC133800B040AA /* LuaEventManager.cpp in Sources */,
 				15EFA618198B2E2B000C57D3 /* lua_cocos2dx_auto.cpp in Sources */,
 				15EFA619198B2E2B000C57D3 /* lua_cocos2dx_physics_auto.cpp in Sources */,
 				15415AB219A71A53004F1E71 /* inet.c in Sources */,

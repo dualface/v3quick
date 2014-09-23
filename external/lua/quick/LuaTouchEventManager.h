@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 #include <string>
 #include <set>
-#include "2d/CCNode.h"
+#include "LuaEventNode.h"
 #include "base/CCEventListenerTouch.h"
 #include "platform/CCStdC.h"
 
@@ -47,9 +47,6 @@ class LuaTouchTargetNode;
 class CC_DLL LuaTouchEventManager : public Node
 {
 public:
-    static const int modeTouchesOneByOne = (int)Touch::DispatchMode::ONE_BY_ONE;
-    static const int modeTouchesAllAtOnce = (int)Touch::DispatchMode::ALL_AT_ONCE;
-    
     /**
      *  The singleton pointer of LuaTouchEventManager.
      */
@@ -64,8 +61,8 @@ public:
     static void destroyInstance();
     
 
-    void addTouchableNode(Node *node);
-    void removeTouchableNode(Node *node);
+    void addTouchableNode(LuaEventNode *node);
+    void removeTouchableNode(LuaEventNode *node);
 
     virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event *pEvent);
     virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event *pEvent);
@@ -88,12 +85,12 @@ protected:
     friend class Node;
     
     std::set<int> m_touchingIds;
-    Vector<Node*> _touchableNodes;
+    Vector<LuaEventNode*> _touchableNodes;
     Vector<LuaTouchTargetNode*> _touchingTargets;
     bool m_touchDispatchingEnabled;
     EventListenerTouchAllAtOnce *_touchListener;
 
-    void sortAllTouchableNodes(Vector<Node*>&nodes);
+    void sortAllTouchableNodes(Vector<LuaEventNode*>&nodes);
     void enableTouchDispatching();
     void disableTouchDispatching();
 

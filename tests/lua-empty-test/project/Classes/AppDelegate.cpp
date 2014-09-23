@@ -4,6 +4,7 @@
 #include "base/CCScriptSupport.h"
 #include "CCLuaEngine.h"
 #include "lua_module_register.h"
+#include "lua/quick/lua_cocos2dx_quick_manual.hpp"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -36,6 +37,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     ScriptEngineManager::getInstance()->setScriptEngine(engine);
     lua_State* L = engine->getLuaStack()->getLuaState();
     lua_module_register(L);
+    register_all_quick_manual(L);
     //The call was commented because it will lead to ZeroBrane Studio can't find correct context when debugging
     //engine->executeScriptFile("src/hello.lua");
 //    engine->executeString("require 'src/hello.lua'");

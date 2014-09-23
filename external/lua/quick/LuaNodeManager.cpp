@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "LuaEventManager.h"
+#include "LuaNodeManager.h"
 #include "base/CCDirector.h"
 
 #include "ccUtils.h"
@@ -30,67 +30,47 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-LuaEventManager* LuaEventManager::s_sharedLuaEventManager = nullptr;
+LuaNodeManager* LuaNodeManager::s_sharedLuaNodeManager = nullptr;
 
-LuaEventManager* LuaEventManager::getInstance()
+LuaNodeManager* LuaNodeManager::getInstance()
 {
-    if (s_sharedLuaEventManager == nullptr)
+    if (s_sharedLuaNodeManager == nullptr)
     {
-        s_sharedLuaEventManager = new (std::nothrow) LuaEventManager();
-        if(!s_sharedLuaEventManager->init())
+        s_sharedLuaNodeManager = new (std::nothrow) LuaNodeManager();
+        if(!s_sharedLuaNodeManager->init())
         {
-            delete s_sharedLuaEventManager;
-            s_sharedLuaEventManager = nullptr;
-            CCLOG("ERROR: Could not init LuaEventManager");
+            delete s_sharedLuaNodeManager;
+            s_sharedLuaNodeManager = nullptr;
+            CCLOG("ERROR: Could not init LuaNodeManager");
         }
     }
-    return s_sharedLuaEventManager;
+    return s_sharedLuaNodeManager;
 }
 
-void LuaEventManager::destroyInstance()
+void LuaNodeManager::destroyInstance()
 {
-    CC_SAFE_DELETE(s_sharedLuaEventManager);
+    CC_SAFE_DELETE(s_sharedLuaNodeManager);
 }
 
-LuaEventManager::LuaEventManager()
+LuaNodeManager::LuaNodeManager()
 {
     _luaNodes.reserve(100);
 }
 
-LuaEventManager::~LuaEventManager()
+LuaNodeManager::~LuaNodeManager()
 {
     // if (_running) {
     //     cleanup();
     // }
 }
 
-bool LuaEventManager::init()
+bool LuaNodeManager::init()
 {
     // _running = true;
     return true;
 }
 
-int LuaEventManager::addLuaEventListener(Node* node, int event, int listener, int tag /* = 0 */, int priority /* = 0 */)
-{
-    LuaEventNode *lnode = getLuaNodeByNode(node);
-    if (!lnode)
-    {
-        lnode = LuaEventNode::create(node);
-        if (!lnode)
-        {
-            return 0;
-        }
-    }
-    int rn =  lnode->addScriptEventListener(event, listener, tag, priority);
-    if (rn > 0)
-    {
-        _luaNodes.pushBack(lnode);
-    }
-
-    return rn;
-}
-
-LuaEventNode* LuaEventManager::getLuaNodeByNode(Node *node)
+LuaEventNode* LuaNodeManager::getLuaNodeByNode(Node *node)
 {
     LuaEventNode *lnode = nullptr;
     for (auto it = _luaNodes.begin(); it != _luaNodes.end(); ++it)
@@ -102,10 +82,14 @@ LuaEventNode* LuaEventManager::getLuaNodeByNode(Node *node)
             break;
         }
     }
+    if (!lnode)
+    {
+        lnode = LuaEventNode::create(node);
+    }
     return lnode;
 }
 
-void LuaEventManager::removeLuaNode(LuaEventNode *lnode)
+void LuaNodeManager::removeLuaNode(LuaEventNode *lnode)
 {
     _luaNodes.eraseObject(lnode);
 }

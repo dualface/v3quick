@@ -22,45 +22,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __LUA_EVENT_MANAGER_H__
-#define __LUA_EVENT_MANAGER_H__
+#ifndef __LUA_NODE_MANAGER_H__
+#define __LUA_NODE_MANAGER_H__
 
 #include <string>
 #include <set>
 #include "LuaEventNode.h"
-#include "base/CCEventListenerTouch.h"
 #include "platform/CCStdC.h"
 
 NS_CC_BEGIN
 
-class CC_DLL LuaEventManager : public Ref
+class CC_DLL LuaNodeManager : public Ref
 {
 public:
     /**
-     *  The singleton pointer of LuaEventManager.
+     *  The singleton pointer of LuaNodeManager.
      */
-    static LuaEventManager* s_sharedLuaEventManager;
+    static LuaNodeManager* s_sharedLuaNodeManager;
     
-    /** returns a shared instance of the LuaEventManager */
-    static LuaEventManager* getInstance();
+    /** returns a shared instance of the LuaNodeManager */
+    static LuaNodeManager* getInstance();
     
     /**
-     *  Destroys the instance of LuaEventManager.
+     *  Destroys the instance of LuaNodeManager.
      */
     static void destroyInstance();
 
-    int addLuaEventListener(Node* node, int event, int listener, int tag = 0, int priority = 0);
-    void removeLuaEventListener(Node* node, int handle);
-    void removeLuaEventListenersByEvent(Node* node, int event);
-    void removeLuaEventListenersByTag(Node* node, int tag);
-    void removeAllLuaEventListeners(Node* node);
-    
     LuaEventNode* getLuaNodeByNode(Node *node);
     void removeLuaNode(LuaEventNode *lnode);
     
 CC_CONSTRUCTOR_ACCESS:
-    LuaEventManager();
-     ~LuaEventManager();
+    LuaNodeManager();
+     ~LuaNodeManager();
     
     bool init();
 
@@ -69,9 +62,9 @@ protected:
 
 };
 
-// end of LuaEventManager group
+// end of LuaNodeManager group
 /// @}
 
 NS_CC_END
 
-#endif // __LUA_EVENT_MANAGER_H__
+#endif // __LUA_NODE_MANAGER_H__

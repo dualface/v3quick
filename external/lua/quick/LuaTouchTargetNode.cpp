@@ -27,14 +27,14 @@ Copyright (c) 2013-2014 Chukong Technologies Inc.
 
 NS_CC_BEGIN
 
-LuaTouchTargetNode *LuaTouchTargetNode::create(Node *node)
+LuaTouchTargetNode *LuaTouchTargetNode::create(LuaEventNode *node)
 {
     LuaTouchTargetNode *touchableNode = new LuaTouchTargetNode(node);
     touchableNode->autorelease();
     return touchableNode;
 }
 
-LuaTouchTargetNode::LuaTouchTargetNode(Node *node)
+LuaTouchTargetNode::LuaTouchTargetNode(LuaEventNode *node)
 : _touchId(0)
 {
     _node = node;
@@ -47,7 +47,7 @@ LuaTouchTargetNode::~LuaTouchTargetNode()
     CC_SAFE_RELEASE(_node);
 }
 
-Node *LuaTouchTargetNode::getNode()
+LuaEventNode *LuaTouchTargetNode::getNode()
 {
     return  _node;
 }
