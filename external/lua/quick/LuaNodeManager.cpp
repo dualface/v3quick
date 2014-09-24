@@ -49,6 +49,7 @@ LuaNodeManager* LuaNodeManager::getInstance()
 
 void LuaNodeManager::destroyInstance()
 {
+    log("---> LuaNodeManager::destroyInstance");
     CC_SAFE_DELETE(s_sharedLuaNodeManager);
 }
 
@@ -59,9 +60,10 @@ LuaNodeManager::LuaNodeManager()
 
 LuaNodeManager::~LuaNodeManager()
 {
-    // if (_running) {
-    //     cleanup();
-    // }
+    log("---> Release LuaNodeManager");
+    if (_luaNodes.size()>0) {
+        _luaNodes.clear();
+    }
 }
 
 bool LuaNodeManager::init()
@@ -92,6 +94,9 @@ LuaEventNode* LuaNodeManager::getLuaNodeByNode(Node *node)
 void LuaNodeManager::removeLuaNode(LuaEventNode *lnode)
 {
     _luaNodes.eraseObject(lnode);
+    if (_luaNodes.size()<1) {
+        destroyInstance();
+    }
 }
 
 NS_CC_END

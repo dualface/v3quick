@@ -115,6 +115,7 @@ void LuaTouchEventManager::removeTouchableNode(LuaEventNode *node)
     if (_touchableNodes.size() == 0 && m_touchDispatchingEnabled)
     {
         disableTouchDispatching();
+        destroyInstance();
     }
 }
 

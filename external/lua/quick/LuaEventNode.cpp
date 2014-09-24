@@ -48,6 +48,9 @@ LuaEventNode::LuaEventNode(Node *node)
 
 LuaEventNode::~LuaEventNode()
 {
+    if (_bTouchEnabled) {
+        unregisterWithTouchDispatcher();
+    }
     CC_SAFE_DELETE(_luaEventDispatcher);
 }
 
