@@ -48,7 +48,7 @@ public:
      */
     static void destroyInstance();
 
-    LuaEventNode* getLuaNodeByNode(Node *node);
+    LuaEventNode* getLuaNodeByNode(Node *node, bool toCreate);
     void removeLuaNode(LuaEventNode *lnode);
     
 CC_CONSTRUCTOR_ACCESS:

@@ -55,6 +55,7 @@ LuaTouchEventManager* LuaTouchEventManager::getInstance()
 
 void LuaTouchEventManager::destroyInstance()
 {
+    log("---> LuaTouchEventManager::destroyInstance");
     CC_SAFE_DELETE(s_sharedLuaTouchEventManager);
 }
 
@@ -71,6 +72,7 @@ LuaTouchEventManager::LuaTouchEventManager()
 
 LuaTouchEventManager::~LuaTouchEventManager()
 {
+    log("---> Release LuaTouchEventManager");
     if (_running) {
         cleanup();
     }

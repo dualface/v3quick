@@ -26,9 +26,19 @@ Copyright (c) 2013-2014 Chukong Technologies Inc.
 #define __LUA_EVENT_NODE_H_
 
 #include "2d/CCNode.h"
-#include "LuaEventDispatcher.h"
 
 NS_CC_BEGIN
+
+#define NODE_EVENT                  0
+#define NODE_ENTER_FRAME_EVENT      1
+#define NODE_TOUCH_EVENT            2
+#define NODE_TOUCH_CAPTURE_EVENT    3
+#define MENU_ITEM_CLICKED_EVENT     4
+#define ACCELERATE_EVENT            5
+#define KEYPAD_EVENT                6
+
+#define NODE_TOUCH_CAPTURING_PHASE  0
+#define NODE_TOUCH_TARGETING_PHASE  1
 
 /**
  * @addtogroup scene
@@ -95,7 +105,6 @@ private:
 
     Node *_node;
     
-    LuaEventDispatcher *_luaEventDispatcher;
     // touch events
     bool _bTouchCaptureEnabled;
     bool _bTouchSwallowEnabled;

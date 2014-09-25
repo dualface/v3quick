@@ -72,7 +72,7 @@ bool LuaNodeManager::init()
     return true;
 }
 
-LuaEventNode* LuaNodeManager::getLuaNodeByNode(Node *node)
+LuaEventNode* LuaNodeManager::getLuaNodeByNode(Node *node, bool toCreate)
 {
     LuaEventNode *lnode = nullptr;
     for (auto it = _luaNodes.begin(); it != _luaNodes.end(); ++it)
@@ -84,9 +84,12 @@ LuaEventNode* LuaNodeManager::getLuaNodeByNode(Node *node)
             break;
         }
     }
-    if (!lnode)
+    if (!lnode && toCreate)
     {
         lnode = LuaEventNode::create(node);
+        if (lnode) {
+            _luaNodes.pushBack(lnode);
+        }
     }
     return lnode;
 }

@@ -25,6 +25,8 @@ Copyright (c) 2013-2014 Chukong Technologies Inc.
 #include "LuaEventNode.h"
 #include "LuaTouchEventManager.h"
 #include "LuaNodeManager.h"
+#include "CCLuaEngine.h"
+#include "tolua_fix.h"
 
 
 NS_CC_BEGIN
@@ -43,15 +45,11 @@ LuaEventNode::LuaEventNode(Node *node)
 , _eTouchMode(modeTouchesOneByOne)
 {
     _node = node;
-    _luaEventDispatcher = new LuaEventDispatcher();
 }
 
 LuaEventNode::~LuaEventNode()
 {
-    if (_bTouchEnabled) {
-        unregisterWithTouchDispatcher();
-    }
-    CC_SAFE_DELETE(_luaEventDispatcher);
+    log("---> Release LuaEventNode");
 }
 
 Node *LuaEventNode::getNode()
@@ -64,7 +62,7 @@ LuaEventNode* LuaEventNode::getParent()
     Node *node = _node->getParent();
     if (node)
     {
-        return LuaNodeManager::getInstance()->getLuaNodeByNode(node);
+        return LuaNodeManager::getInstance()->getLuaNodeByNode(node, false);
     }
     return nullptr;
 }
@@ -125,13 +123,8 @@ bool LuaEventNode::ccTouchCaptureBegan(Touch *pTouch, LuaEventNode *pTarget)
 {
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         return executeScriptTouchHandler(CCTOUCHBEGAN, pTouch, NODE_TOUCH_CAPTURING_PHASE);
-    }
-    else
-    {
-        return true;
     }
 }
 
@@ -139,13 +132,8 @@ bool LuaEventNode::ccTouchCaptureMoved(Touch *pTouch, LuaEventNode *pTarget)
 {
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         return executeScriptTouchHandler(CCTOUCHMOVED, pTouch, NODE_TOUCH_CAPTURING_PHASE);
-    }
-    else
-    {
-        return true;
     }
 }
 
@@ -153,7 +141,6 @@ void LuaEventNode::ccTouchCaptureEnded(Touch *pTouch, LuaEventNode *pTarget)
 {
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHENDED, pTouch, NODE_TOUCH_CAPTURING_PHASE);
     }
@@ -163,7 +150,6 @@ void LuaEventNode::ccTouchCaptureCancelled(Touch *pTouch, LuaEventNode *pTarget)
 {
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHCANCELLED, pTouch, NODE_TOUCH_CAPTURING_PHASE);
     }
@@ -173,7 +159,6 @@ void LuaEventNode::ccTouchesCaptureBegan(const std::vector<Touch*>& touches, Lua
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHBEGAN, touches, NODE_TOUCH_CAPTURING_PHASE);
     }
@@ -183,7 +168,6 @@ void LuaEventNode::ccTouchesCaptureMoved(const std::vector<Touch*>& touches, Lua
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHMOVED, touches, NODE_TOUCH_CAPTURING_PHASE);
     }
@@ -193,7 +177,6 @@ void LuaEventNode::ccTouchesCaptureEnded(const std::vector<Touch*>& touches, Lua
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHENDED, touches, NODE_TOUCH_CAPTURING_PHASE);
     }
@@ -203,7 +186,6 @@ void LuaEventNode::ccTouchesCaptureCancelled(const std::vector<Touch*>& touches,
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHCANCELLED, touches, NODE_TOUCH_CAPTURING_PHASE);
     }
@@ -213,7 +195,6 @@ void LuaEventNode::ccTouchesCaptureAdded(const std::vector<Touch*>& touches, Lua
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHADDED, touches, NODE_TOUCH_CAPTURING_PHASE);
     }
@@ -223,7 +204,6 @@ void LuaEventNode::ccTouchesCaptureRemoved(const std::vector<Touch*>& touches, L
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pTarget);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_CAPTURE_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHREMOVED, touches, NODE_TOUCH_CAPTURING_PHASE);
     }
@@ -276,7 +256,6 @@ bool LuaEventNode::ccTouchBegan(Touch *pTouch, Event *pEvent)
 {
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHBEGAN, pTouch);
     }
@@ -287,7 +266,6 @@ void LuaEventNode::ccTouchMoved(Touch *pTouch, Event *pEvent)
 {
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHMOVED, pTouch);
     }
@@ -297,7 +275,6 @@ void LuaEventNode::ccTouchEnded(Touch *pTouch, Event *pEvent)
 {
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHENDED, pTouch);
     }
@@ -307,7 +284,6 @@ void LuaEventNode::ccTouchCancelled(Touch *pTouch, Event *pEvent)
 {
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHCANCELLED, pTouch);
     }
@@ -317,7 +293,6 @@ void LuaEventNode::ccTouchesBegan(const std::vector<Touch*>& touches, Event *pEv
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHBEGAN, touches);
     }
@@ -327,7 +302,6 @@ void LuaEventNode::ccTouchesMoved(const std::vector<Touch*>& touches, Event *pEv
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHMOVED, touches);
     }
@@ -337,7 +311,6 @@ void LuaEventNode::ccTouchesEnded(const std::vector<Touch*>& touches, Event *pEv
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHENDED, touches);
     }
@@ -347,7 +320,6 @@ void LuaEventNode::ccTouchesCancelled(const std::vector<Touch*>& touches, Event 
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHCANCELLED, touches);
     }
@@ -357,7 +329,6 @@ void LuaEventNode::ccTouchesAdded(const std::vector<Touch*>& touches, Event *pEv
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHADDED, touches);
     }
@@ -367,20 +338,206 @@ void LuaEventNode::ccTouchesRemoved(const std::vector<Touch*>& touches, Event *p
 {
     CC_UNUSED_PARAM(touches);
     CC_UNUSED_PARAM(pEvent);
-    if (_luaEventDispatcher->hasScriptEventListener(NODE_TOUCH_EVENT))
     {
         executeScriptTouchHandler(CCTOUCHREMOVED, touches);
     }
 }
 
+static LuaStack * initExecParam(Node *node, int phase)
+{
+    int  id = node->_luaID;
+    if (id<1)
+    {
+        return nullptr;
+    }
+    
+    LuaEngine* engine = LuaEngine::getInstance();
+    auto stack = engine->getLuaStack();
+    stack->clean();
+    
+    auto L = stack->getLuaState();
+    luaL_getmetatable(L, "cc.Node");                             /* stack: mt */
+    lua_pushliteral(L, "EventDispatcher");
+    lua_rawget(L, -2);                                           /* stack: mt func */
+    lua_pushstring(L, "tolua_ubox");                             /* stack: mt func key */
+    lua_rawget(L, -3);                                           /* stack: mt func ubox */
+    if (lua_isnil(L, -1))
+    {
+        // use global ubox
+        lua_pop(L, 1);                                              /* stack: mt func */
+        lua_pushstring(L, "tolua_ubox");                            /* stack: mt func key */
+        lua_rawget(L, LUA_REGISTRYINDEX);                           /* stack: mt func ubox */
+    };
+    lua_pushlightuserdata(L, node);                                 /* stack: mt func ubox ptr */
+    lua_rawget(L,-2);                                               /* stack: mt func ubox ud */
+    if (lua_isnil(L, -1))
+    {
+        stack->clean();
+        return nullptr;
+    }
+    
+    int etype = (phase == NODE_TOUCH_CAPTURING_PHASE) ? NODE_TOUCH_CAPTURE_EVENT : NODE_TOUCH_EVENT;
+    lua_pushnumber(L, etype);                                       /* stack: mt func ubox ud etype */
+    lua_remove(L, -3);                                              /* stack: mt func ud etype */
+
+    return stack;
+}
+
+static int callNodeEventDispatcher(LuaStack *stack, LuaValueDict &event)
+{
+    auto L = stack->getLuaState();
+    stack->pushLuaValueDict(event);                            /* stack: mt func ud phase evt */
+    int rn = stack->executeFunction(3);
+    if (rn==1) {
+        bool b = lua_toboolean(L, -1);
+        if (!b)
+        {
+            rn = 0;
+        }
+    }
+    else
+    {
+        rn = 0;
+    }
+    
+    stack->clean();
+    return rn;
+}
+
 int LuaEventNode::executeScriptTouchHandler(int nEventType, Touch *pTouch, int phase /* = NODE_TOUCH_TARGETING_PHASE */)
 {
-//    return ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeTouchEvent(this, nEventType, pTouch, phase);
+    auto stack = initExecParam(this->getNode(), phase);
+    if (!stack)
+    {
+        return 0;
+    }
+    
+    LuaValueDict event;
+    switch (nEventType)
+    {
+        case CCTOUCHBEGAN:
+            event["name"] = LuaValue::stringValue("began");
+            break;
+            
+        case CCTOUCHMOVED:
+            event["name"] = LuaValue::stringValue("moved");
+            break;
+            
+        case CCTOUCHENDED:
+            event["name"] = LuaValue::stringValue("ended");
+            break;
+            
+        case CCTOUCHCANCELLED:
+            event["name"] = LuaValue::stringValue("cancelled");
+            break;
+            
+        default:
+            CCAssert(false, "INVALID touch event");
+            return 0;
+    }
+    
+    event["mode"] = LuaValue::intValue((int)Touch::DispatchMode::ONE_BY_ONE);
+    switch (phase)
+    {
+        case NODE_TOUCH_CAPTURING_PHASE:
+            event["phase"] = LuaValue::stringValue("capturing");
+            break;
+            
+        case NODE_TOUCH_TARGETING_PHASE:
+            event["phase"] = LuaValue::stringValue("targeting");
+            break;
+            
+        default:
+            event["phase"] = LuaValue::stringValue("unknown");
+    }
+    
+    const Point pt = Director::getInstance()->convertToGL(pTouch->getLocationInView());
+    event["x"] = LuaValue::floatValue(pt.x);
+    event["y"] = LuaValue::floatValue(pt.y);
+    const Point prev = Director::getInstance()->convertToGL(pTouch->getPreviousLocationInView());
+    event["prevX"] = LuaValue::floatValue(prev.x);
+    event["prevY"] = LuaValue::floatValue(prev.y);
+    
+    
+    return callNodeEventDispatcher(stack, event);
 }
 
 int LuaEventNode::executeScriptTouchHandler(int nEventType, const std::vector<Touch*>& touches, int phase /* = NODE_TOUCH_TARGETING_PHASE */)
 {
-//    return ScriptEngineManager::getInstance()->getScriptEngine()->executeNodeTouchesEvent(this, nEventType, touches, phase);
+    auto stack = initExecParam(this->getNode(), phase);
+    if (!stack)
+    {
+        return 0;
+    }
+    
+    LuaValueDict event;
+    switch (nEventType)
+    {
+        case CCTOUCHBEGAN:
+            event["name"] = LuaValue::stringValue("began");
+            break;
+            
+        case CCTOUCHMOVED:
+            event["name"] = LuaValue::stringValue("moved");
+            break;
+            
+        case CCTOUCHENDED:
+            event["name"] = LuaValue::stringValue("ended");
+            break;
+            
+        case CCTOUCHCANCELLED:
+            event["name"] = LuaValue::stringValue("cancelled");
+            break;
+            
+        case CCTOUCHADDED:
+            event["name"] = LuaValue::stringValue("added");
+            break;
+            
+        case CCTOUCHREMOVED:
+            event["name"] = LuaValue::stringValue("removed");
+            break;
+            
+        default:
+            return 0;
+    }
+    
+    event["mode"] = LuaValue::intValue((int)Touch::DispatchMode::ALL_AT_ONCE);
+    switch (phase)
+    {
+        case NODE_TOUCH_CAPTURING_PHASE:
+            event["phase"] = LuaValue::stringValue("capturing");
+            break;
+            
+        case NODE_TOUCH_TARGETING_PHASE:
+            event["phase"] = LuaValue::stringValue("targeting");
+            break;
+            
+        default:
+            event["phase"] = LuaValue::stringValue("unknown");
+    }
+    
+    LuaValueDict points;
+    Director* pDirector = Director::getInstance();
+    char touchId[16];
+    for (auto touchIt = touches.begin(); touchIt != touches.end(); ++touchIt)
+    {
+        LuaValueDict point;
+        Touch* pTouch = (Touch*)*touchIt;
+        sprintf(touchId, "%d", pTouch->getID());
+        point["id"] = LuaValue::stringValue(touchId);
+        
+        const Point pt = pDirector->convertToGL(pTouch->getLocationInView());
+        point["x"] = LuaValue::floatValue(pt.x);
+        point["y"] = LuaValue::floatValue(pt.y);
+        const Point prev = pDirector->convertToGL(pTouch->getPreviousLocationInView());
+        point["prevX"] = LuaValue::floatValue(prev.x);
+        point["prevY"] = LuaValue::floatValue(prev.y);
+        
+        points[touchId] = LuaValue::dictValue(point);
+    }
+    event["points"] = LuaValue::dictValue(points);
+
+    return callNodeEventDispatcher(stack, event);
 }
 
 NS_CC_END

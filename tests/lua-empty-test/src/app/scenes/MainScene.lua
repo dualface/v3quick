@@ -11,7 +11,7 @@ function MainScene:ctor()
 end
 
 function MainScene:onEnterFrame(dt)
-	print("dt:", dt)
+	-- print("dt:", dt)
 end
 
 function MainScene:onEnter()
@@ -28,6 +28,16 @@ function MainScene:onEnter()
         self:setKeypadEnabled(false)
         end)
 	self:setKeypadEnabled(true)
+
+	self:addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
+        print("*******NODE_TOUCH_EVENT*******")
+        dump(event)
+                -- if event.key == "back" then
+                --   app.exit()
+                -- end
+        return true
+        end)
+	self:setTouchEnabled(true)
 end
 
 function MainScene:onExit()

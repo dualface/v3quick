@@ -206,6 +206,7 @@ function Node:addNodeEventListener( evt, hdl, tag, priority )
             tag_ = tag,
             priority_ = priority,
             enable_ = true,
+            removed_ = false,
         }
     if evt==c.NODE_ENTER_FRAME_EVENT then
         eventListeners_[1] = lis
@@ -229,6 +230,8 @@ function Node:removeNodeEventListenersByEvent( evt )
             self:setKeypadEnabled(false)
         elseif evt==c.NODE_ENTER_FRAME_EVENT then
             self:unscheduleUpdate()
+        elseif evt==c.NODE_TOUCH_EVENT then
+            self:removeTouchEvent()
         end
 
         self._scriptEventListeners_[evt] = nil
@@ -247,7 +250,9 @@ local function KeypadEventCodeConvert( code )
 end
 
 function Node:EventDispatcher( idx, data )
-    -- print("-----Entry Node:EventDispatcher: "..idx)
+    if idx~=1 then
+        print("-----Entry Node:EventDispatcher: "..idx)
+    end
     local obj = self
     local flagNodeCleanup = false
     local event
@@ -265,13 +270,47 @@ function Node:EventDispatcher( idx, data )
         if ename~='Released' then return true end
         event = { code=code, key=KeypadEventCodeConvert(code), }
     else
-        return false
+        event = data
+        dump(event)
     end
 
     local rnval = false
-    if obj._scriptEventListeners_ and obj._scriptEventListeners_[idx] then
-        for i,v in ipairs(obj._scriptEventListeners_[idx]) do
-            rnval = rnval or v.listener_(event)
+    if idx==cc.NODE_TOUCH_CAPTURE_EVENT then
+        rnval = true
+    end
+    local flagNeedClean = false
+    local listener
+    if obj._scriptEventListeners_ then
+        listener = obj._scriptEventListeners_[idx]
+    end
+    if listener then
+        for i,v in ipairs(listener) do
+            if v.removed_ then
+                flagNeedClean = true
+            else
+                if evtname=="began" then
+                    v.enable_ = true
+                end
+
+                if v.enable_ then
+                    listenerRet = v.listener_(event)
+                    if not listenerRet then
+                        if idx==cc.NODE_TOUCH_CAPTURE_EVENT then
+                            local evtname  = event.name
+                            if (evtname=="began") or (evtname=="moved") then
+                                rnval = false
+                            end
+                        elseif idx==cc.NODE_TOUCH_EVENT then
+                            if event.name=="began" then
+                                v.enable_ = false
+                            end
+                            rnval = rnval or listenerRet
+                        else
+                            rnval = rnval or listenerRet
+                        end
+                    end 
+                end
+            end
         end
     end
 

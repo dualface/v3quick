@@ -64,10 +64,10 @@ public:
     void addTouchableNode(LuaEventNode *node);
     void removeTouchableNode(LuaEventNode *node);
 
-    virtual void onTouchesBegan(const std::vector<Touch*>& touches, Event *pEvent);
-    virtual void onTouchesMoved(const std::vector<Touch*>& touches, Event *pEvent);
-    virtual void onTouchesEnded(const std::vector<Touch*>& touches, Event *pEvent);
-    virtual void onTouchesCancelled(const std::vector<Touch*>& touches, Event *pEvent);
+    void onTouchesBegan(const std::vector<Touch*>& touches, Event *pEvent);
+    void onTouchesMoved(const std::vector<Touch*>& touches, Event *pEvent);
+    void onTouchesEnded(const std::vector<Touch*>& touches, Event *pEvent);
+    void onTouchesCancelled(const std::vector<Touch*>& touches, Event *pEvent);
 
     virtual void cleanup(void);
 
