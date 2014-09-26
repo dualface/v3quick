@@ -359,6 +359,51 @@ tolua_lerror:
 #endif
 }
 
+int lua_cocos2dx_Node_getCascadeBoundingBox(lua_State* tolua_S)
+{
+    int argc = 0;
+    cocos2d::Node* cobj = nullptr;
+    bool ok  = true;
+    
+#if COCOS2D_DEBUG >= 1
+    tolua_Error tolua_err;
+#endif
+    
+    
+#if COCOS2D_DEBUG >= 1
+    if (!tolua_isusertype(tolua_S,1,"cc.Node",0,&tolua_err)) goto tolua_lerror;
+#endif
+    
+    cobj = (cocos2d::Node*)tolua_tousertype(tolua_S,1,0);
+    
+#if COCOS2D_DEBUG >= 1
+    if (!cobj)
+    {
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_Node_getCascadeBoundingBox'", nullptr);
+        return 0;
+    }
+#endif
+    
+    argc = lua_gettop(tolua_S)-1;
+    if (argc == 0)
+    {
+        if(!ok)
+            return 0;
+        cocos2d::Rect ret = utils::getCascadeBoundingBox(cobj);
+        rect_to_luaval(tolua_S, ret);
+        return 1;
+    }
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "getCascadeBoundingBox",argc, 0);
+    return 0;
+    
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_Node_getCascadeBoundingBox'.",&tolua_err);
+#endif
+    
+    return 0;
+}
+
 static void extendNode(lua_State* tolua_S)
 {
     lua_pushstring(tolua_S,"cc.Node");
@@ -394,6 +439,9 @@ static void extendNode(lua_State* tolua_S)
         lua_rawset(tolua_S, -3);
         lua_pushstring(tolua_S, "removeTouchEvent");
         lua_pushcfunction(tolua_S, tolua_Cocos2d_Node_removeTouchEvent);
+        lua_rawset(tolua_S,-3);
+        lua_pushstring(tolua_S, "getCascadeBoundingBox");
+        lua_pushcfunction(tolua_S, lua_cocos2dx_Node_getCascadeBoundingBox);
         lua_rawset(tolua_S,-3);
     }
     lua_pop(tolua_S, 1);
