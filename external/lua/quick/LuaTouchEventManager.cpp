@@ -306,14 +306,14 @@ void LuaTouchEventManager::sortAllTouchableNodes(Vector<LuaEventNode*>& nodes)
     // insertion sort
     for(i = 0; i < length-1; i++)
     {
-//        auto order1 = nodes.at(i)->m_drawOrder;
-//        for (j=i+1; j<length; j++) {
-//            auto order2 = nodes.at(j)->m_drawOrder;
-//            if (order2>order1) {
-//                nodes.swap(i, j);
-//                order1 = order2;
-//            }
-//        }
+        auto order1 = nodes.at(i)->getNode()->getGlobalZOrder();
+        for (j=i+1; j<length; j++) {
+            auto order2 = nodes.at(j)->getNode()->getGlobalZOrder();
+            if (order2>order1) {
+                nodes.swap(i, j);
+                order1 = order2;
+            }
+        }
     }
 
     // debug
