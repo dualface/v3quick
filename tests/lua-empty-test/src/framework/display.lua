@@ -71,10 +71,12 @@ local sharedAnimationCache   = cc.AnimationCache:getInstance()
 
 -- check device screen size
 local glview = sharedDirector:getOpenGLView()
-if nil == glView then
-    glview = cc.GLViewImpl:create("Lua Empty Test")
+if nil == glview then
+    glview = cc.GLViewImpl:createWithRect("HelloLua",
+        cc.rect(0, 0, CONFIG_SCREEN_WIDTH or 900, CONFIG_SCREEN_HEIGHT or 640))
     sharedDirector:setOpenGLView(glview)
 end
+
 local size = glview:getFrameSize()
 display.sizeInPixels = {width = size.width, height = size.height}
 
@@ -236,6 +238,10 @@ display.SCENE_TRANSITIONS = {
 }
 
 display.TEXTURES_PIXEL_FORMAT = {}
+
+display.DEFAULT_TTF_FONT        = "Arial"
+display.DEFAULT_TTF_FONT_SIZE   = 24
+
 
 --[[--
 
@@ -576,7 +582,7 @@ function display.newSprite(filename, x, y, params)
             if display.TEXTURES_PIXEL_FORMAT[filename] then
                 cc.Texture2D:setDefaultAlphaPixelFormat(display.TEXTURES_PIXEL_FORMAT[filename])
                 sprite = spriteClass:create(filename)
-                cc.Texture2D:setDefaultAlphaPixelFormat(cc.TEXTURE2_D_PIXEL_FORMAT_RGB_A8888)
+                cc.Texture2D:setDefaultAlphaPixelFormat(cc.TEXTURE2D_PIXEL_FORMAT_RGBA8888)
             else
                 if params and params.capInsets then
                     sprite = spriteClass:create(params.capInsets, filename)
@@ -968,7 +974,7 @@ shape = display.newLine(point表, [参数])
 ~~~ lua
 
 -- 创建一个线宽为2，颜色为红色，从(10,10)到(100,100)的线段
-local shape3 = display.newRect({cc.p(10, 10), cc.p(100,100)},
+local shape3 = display.newLine({(10, 10), (100,100)},
     {borderColor = cc.c4f(1.0, 0.0, 0.0, 1.0),
     borderWidth = 1})
 
@@ -985,13 +991,16 @@ local shape3 = display.newRect({cc.p(10, 10), cc.p(100,100)},
 function display.newLine(points, params)
     local radius
     local borderColor
+    local scale
 
     if not params then
         borderColor = cc.c4f(0,0,0,1)
         radius = 0.5
+        scale = 1.0
     else
         borderColor = params.borderColor or cc.c4f(0,0,0,1)
         radius = (params.borderWidth and params.borderWidth/2) or 0.5
+        scale = checknumber(params.scale or 1.0)
     end
 
     for i, p in ipairs(points) do
@@ -1058,6 +1067,142 @@ function display.newPolygon(points, params, drawNode)
         end
     end
     return drawNode
+end
+
+--[[--
+
+用位图字体创建文本显示对象，并返回 Label 对象。
+
+BMFont 通常用于显示英文内容，因为英文字母加数字和常用符号也不多，生成的 BMFont 文件较小。如果是中文，应该用 TTFLabel。
+
+可用参数：
+
+-    text: 要显示的文本
+-    font: 字体文件名
+-    align: 文字的水平对齐方式（可选）
+-    maxLineWidth: 最大行宽（可选）
+-    offsetX: 图像的X偏移量（可选）
+-    offsetY: 图像的Y偏移量（可选）
+-    x, y: 坐标（可选）
+
+~~~ lua
+
+local label = display.newBMFontLabel({
+    text = "Hello",
+    font = "UIFont.fnt",
+})
+
+~~~
+
+@param table params 参数表格对象
+
+@return Label Label对象
+
+]]
+function display.newBMFontLabel(params)
+    assert(type(params) == "table",
+           "[framework.display] newBMFontLabel() invalid params")
+
+    local text      = tostring(params.text)
+    local font      = params.font
+    local textAlign = params.align or cc.TEXT_ALIGNMENT_LEFT
+    local maxLineW  = params.maxLineWidth or 0
+    local offsetX   = params.offsetX or 0
+    local offsetY   = params.offsetY or 0
+    local x, y      = params.x, params.y
+    assert(font ~= nil, "framework.display.newBMFontLabel() - not set font")
+
+    local label = cc.Label:createWithBMFont(font, text, textAlign, maxLineW, cc.p(offsetX, offsetY));
+    if not label then return end
+
+    if type(x) == "number" and type(y) == "number" then
+        label:setPosition(x, y)
+    end
+
+    return label
+end
+
+--[[--
+
+使用 TTF 字体创建文字显示对象，并返回 Label 对象。
+
+可用参数：
+
+-    text: 要显示的文本
+-    font: 字体名，如果是非系统自带的 TTF 字体，那么指定为字体文件名
+-    size: 文字尺寸，因为是 TTF 字体，所以可以任意指定尺寸
+-    color: 文字颜色（可选），用 cc.c3b() 指定，默认为白色
+-    align: 文字的水平对齐方式（可选）
+-    valign: 文字的垂直对齐方式（可选），仅在指定了 dimensions 参数时有效
+-    dimensions: 文字显示对象的尺寸（可选），使用 cc.size() 指定
+-    x, y: 坐标（可选）
+
+align 和 valign 参数可用的值：
+
+-    cc.TEXT_ALIGNMENT_LEFT 左对齐
+-    cc.TEXT_ALIGNMENT_CENTER 水平居中对齐
+-    cc.TEXT_ALIGNMENT_RIGHT 右对齐
+-    cc.VERTICAL_TEXT_ALIGNMENT_TOP 垂直顶部对齐
+-    cc.VERTICAL_TEXT_ALIGNMENT_CENTER 垂直居中对齐
+-    cc.VERTICAL_TEXT_ALIGNMENT_BOTTOM 垂直底部对齐
+
+~~~ lua
+
+-- 创建一个居中对齐的文字显示对象
+local label = display.newTTFLabel({
+    text = "Hello, World",
+    font = "Marker Felt",
+    size = 64,
+    align = cc.TEXT_ALIGNMENT_CENTER -- 文字内部居中对齐
+})
+
+-- 左对齐，并且多行文字顶部对齐
+local label = display.newTTFLabel({
+    text = "Hello, World\n您好，世界",
+    font = "Arial",
+    size = 64,
+    color = cc.c3b(255, 0, 0), -- 使用纯红色
+    align = cc.TEXT_ALIGNMENT_LEFT,
+    valign = cc.VERTICAL_TEXT_ALIGNMENT_TOP,
+    dimensions = cc.size(400, 200)
+})
+
+~~~
+
+@param table params 参数表格对象
+
+@return UILabel UILabel对象
+
+]]
+function display.newTTFLabel(params)
+    assert(type(params) == "table",
+           "[framework.display] newTTFLabel() invalid params")
+
+    local text       = tostring(params.text)
+    local font       = params.font or display.DEFAULT_TTF_FONT
+    local size       = params.size or display.DEFAULT_TTF_FONT_SIZE
+    local color      = params.color or display.COLOR_WHITE
+    local textAlign  = params.align or cc.TEXT_ALIGNMENT_LEFT
+    local textValign = params.valign or cc.VERTICAL_TEXT_ALIGNMENT_TOP
+    local x, y       = params.x, params.y
+    local dimensions = params.dimensions or cc.size(0, 0)
+
+    assert(type(size) == "number",
+           "[framework.display] newTTFLabel() invalid params.size")
+
+    local label
+    if cc.FileUtils:getInstance():isFileExist(font) then
+        label = cc.Label:createWithTTF(text, font, size, dimensions, textAlign, textValign)
+    else
+        label = cc.Label:createWithSystemFont(text, font, size, dimensions, textAlign, textValign)
+    end
+
+    if label then
+        label:setColor(color)
+        if x and y then label:setPosition(x, y) end
+    end
+
+    return label
 end
 
 --[[--
@@ -1270,7 +1415,7 @@ local sprite = display.newSprite("#Yes.png")
 local frameNo = display.newSpriteFrame("No.png")
 
 -- 在需要时，修改 Sprite 的显示内容
-sprite:setDisplayFrame(frameNo)
+sprite:setSpriteFrame(frameNo)
 
 ~~~
 
@@ -1360,7 +1505,7 @@ function display.newAnimation(frames, time)
     return cc.Animation:createWithSpriteFrames(frames, time)
 end
 
---[[
+--[[--
 
 以指定名字缓存创建好的动画对象，以便后续反复使用。
 
