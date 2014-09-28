@@ -39,7 +39,7 @@ LuaTouchTargetNode::LuaTouchTargetNode(LuaEventNode *node)
 {
     _node = node;
     _node->retain();
-//    _touchMode = node->getTouchMode();
+    _touchMode = node->getTouchMode();
 }
 
 LuaTouchTargetNode::~LuaTouchTargetNode()

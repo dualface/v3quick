@@ -52,7 +52,7 @@ LuaEventNode::~LuaEventNode()
     log("---> Release LuaEventNode");
 }
 
-Node *LuaEventNode::getNode()
+Node *LuaEventNode::getNode() const
 {
     return  _node;
 }
