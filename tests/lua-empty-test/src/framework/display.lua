@@ -71,7 +71,7 @@ local sharedAnimationCache   = cc.AnimationCache:getInstance()
 
 -- check device screen size
 local glview = sharedDirector:getOpenGLView()
-if nil == glView then
+if nil == glview then
     glview = cc.GLViewImpl:createWithRect("QuickCocos", 
         cc.rect(0, 0, CONFIG_SCREEN_WIDTH or 900, CONFIG_SCREEN_HEIGHT or 640))
     sharedDirector:setOpenGLView(glview)
