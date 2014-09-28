@@ -861,7 +861,7 @@ function table.insertto(dest, src, begin)
 	end
 end
 
---[[
+--[[--
 
 从表格中查找指定值，返回其索引，如果没找到返回 false
 

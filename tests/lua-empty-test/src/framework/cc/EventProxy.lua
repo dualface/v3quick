@@ -15,7 +15,6 @@ function EventProxy:ctor(eventDispatcher, view)
 end
 
 function EventProxy:addEventListener(eventName, listener, data)
-    print("---- EventProxy:addEventListener ----")
     local handle = self.eventDispatcher_:addEventListener(eventName, listener, data)
     self.handles_[#self.handles_ + 1] = {eventName, handle}
     return self

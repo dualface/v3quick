@@ -9,7 +9,6 @@ function EventProtocol:ctor()
 end
 
 function EventProtocol:addEventListener(eventName, listener, tag)
-    -- print("---- EventProtocol:addEventListener ----")
     assert(type(eventName) == "string" and eventName ~= "",
         "EventProtocol:addEventListener() - invalid eventName")
     eventName = string.upper(eventName)
@@ -68,6 +67,22 @@ function EventProtocol:dispatchEvent(event)
     return self.target_
 end
 
+function EventProtocol:removeEventListener(handleToRemove)
+    for eventName, listenersForEvent in pairs(self.listeners_) do
+        for handle, _ in pairs(listenersForEvent) do
+            if handle == handleToRemove then
+                listenersForEvent[handle] = nil
+                if DEBUG > 1 then
+                    printInfo("%s [EventProtocol] removeEventListener() - remove listener [%s] for event %s", tostring(self.target_), handle, eventName)
+                end
+                return self.target_
+            end
+        end
+    end
+
+    return self.target_
+end
+
 function EventProtocol:removeEventListenersByTag(tagToRemove)
     for eventName, listenersForEvent in pairs(self.listeners_) do
         for handle, listener in pairs(listenersForEvent) do
@@ -102,7 +117,7 @@ function EventProtocol:removeAllEventListeners()
 end
 
 function EventProtocol:hasEventListener(eventName)
-    event.name = string.upper(tostring(eventName))
+    eventName = string.upper(tostring(eventName))
     local t = self.listeners_[eventName]
     for _, __ in pairs(t) do
         return true
