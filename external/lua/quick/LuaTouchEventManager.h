@@ -27,6 +27,7 @@ THE SOFTWARE.
 
 #include <string>
 #include <set>
+#include <unordered_map>
 #include "LuaEventNode.h"
 #include "base/CCEventListenerTouch.h"
 #include "platform/CCStdC.h"
@@ -95,6 +96,20 @@ protected:
     void disableTouchDispatching();
 
     void dispatchingTouchEvent(const std::vector<Touch*>& touches, Event *pEvent, int event);
+    
+    /** Walks though scene graph to get the draw order for each node, it's called before sorting event listener with scene graph priority */
+    void visitTarget(Node* node, bool isRootNode);
+    
+    /** The map of node and LuaEventNode */
+    std::unordered_map<Node*, LuaEventNode*> _nodeLuaEventNodeMap;
+    
+    /** The map of node and its event priority */
+    std::unordered_map<Node*, int> _nodePriorityMap;
+    
+    /** key: Global Z Order, value: Sorted Nodes */
+    std::unordered_map<float, std::vector<Node*>> _globalZOrderNodeMap;
+    
+    int _nodePriorityIndex;
 };
 
 // end of LuaTouchEventManager group

@@ -102,6 +102,7 @@ void LuaTouchEventManager::addTouchableNode(LuaEventNode *node)
     if (!_touchableNodes.contains(node))
     {
         _touchableNodes.pushBack(node);
+        _nodeLuaEventNodeMap.insert(std::make_pair(node->getNode(), node));
 //        CCLOG("ADD TOUCHABLE NODE <%p>", node);
         if (!m_touchDispatchingEnabled)
         {
@@ -113,6 +114,11 @@ void LuaTouchEventManager::addTouchableNode(LuaEventNode *node)
 void LuaTouchEventManager::removeTouchableNode(LuaEventNode *node)
 {
     _touchableNodes.eraseObject(node);
+    auto found = _nodeLuaEventNodeMap.find(node->getNode());
+    if (found != _nodeLuaEventNodeMap.end())
+    {
+        _nodeLuaEventNodeMap.erase(found);
+    }
 //    CCLOG("REMOVE TOUCHABLE NODE <%p>", node);
     if (_touchableNodes.size() == 0 && m_touchDispatchingEnabled)
     {
@@ -301,29 +307,36 @@ void LuaTouchEventManager::cleanup(void)
 
 void LuaTouchEventManager::sortAllTouchableNodes(Vector<LuaEventNode*>& nodes)
 {
-    ssize_t i, j, length = nodes.size();
-
-    // insertion sort
-    for(i = 0; i < length-1; i++)
+    ssize_t length = nodes.size();
+    
+    if (length<1)
     {
-        auto order1 = nodes.at(i)->getNode()->getGlobalZOrder();
-        for (j=i+1; j<length; j++) {
-            auto order2 = nodes.at(j)->getNode()->getGlobalZOrder();
-            if (order2>order1) {
-                nodes.swap(i, j);
-                order1 = order2;
-            }
-        }
+        return;
     }
 
-    // debug
-//        CCLOG("----------------------------------------");
-//        Node *tempItem;
-//        for(i=0; i<length; i++)
-//        {
-//            tempItem = nodes.at(i);
-//            log("[%03ld] m_drawOrder = %u, w = %0.2f, h = %0.2f", i, tempItem->m_drawOrder, tempItem->getCascadeBoundingBox().size.width, tempItem->getCascadeBoundingBox().size.height);
-//        }
+    // Reset priority index
+    _nodePriorityIndex = 0;
+    _nodePriorityMap.clear();
+    
+    auto rootNode = Director::getInstance()->getRunningScene();
+    if (!rootNode)
+    {
+        return;
+    }
+    visitTarget(rootNode, true);
+    
+    // After sort: priority < 0, > 0
+    std::sort(nodes.begin(), nodes.end(), [this](const LuaEventNode* l1, const LuaEventNode* l2) {
+        return _nodePriorityMap[l1->getNode()] > _nodePriorityMap[l2->getNode()];
+    });
+    
+#if DUMP_LISTENER_ITEM_PRIORITY_INFO
+    log("-----------------------------------");
+    for (auto& l : nodes)
+    {
+        log("listener priority: node ([%s]%p), priority (%d)", typeid(*l->getNode()).name(), l->getNode(), _nodePriorityMap[l->getNode()]);
+    }
+#endif
 }
 
 void LuaTouchEventManager::enableTouchDispatching()
@@ -502,6 +515,73 @@ void LuaTouchEventManager::dispatchingTouchEvent(const std::vector<Touch*>& touc
                     break;
             }
         }
+    }
+}
+
+void LuaTouchEventManager::visitTarget(Node* node, bool isRootNode)
+{
+    int i = 0;
+    auto& children = node->getChildren();
+    
+    auto childrenCount = children.size();
+    
+    if(childrenCount > 0)
+    {
+        Node* child = nullptr;
+        // visit children zOrder < 0
+        for( ; i < childrenCount; i++ )
+        {
+            child = children.at(i);
+            
+            if ( child && child->getLocalZOrder() < 0 )
+                visitTarget(child, false);
+            else
+                break;
+        }
+        
+        if (_nodeLuaEventNodeMap.find(node) != _nodeLuaEventNodeMap.end())
+        {
+            _globalZOrderNodeMap[node->getGlobalZOrder()].push_back(node);
+        }
+        
+        for( ; i < childrenCount; i++ )
+        {
+            child = children.at(i);
+            if (child)
+                visitTarget(child, false);
+        }
+    }
+    else
+    {
+        if (_nodeLuaEventNodeMap.find(node) != _nodeLuaEventNodeMap.end())
+        {
+            _globalZOrderNodeMap[node->getGlobalZOrder()].push_back(node);
+        }
+    }
+    
+    if (isRootNode)
+    {
+        std::vector<float> globalZOrders;
+        globalZOrders.reserve(_globalZOrderNodeMap.size());
+        
+        for (const auto& e : _globalZOrderNodeMap)
+        {
+            globalZOrders.push_back(e.first);
+        }
+        
+        std::sort(globalZOrders.begin(), globalZOrders.end(), [](const float a, const float b){
+            return a < b;
+        });
+        
+        for (const auto& globalZ : globalZOrders)
+        {
+            for (const auto& n : _globalZOrderNodeMap[globalZ])
+            {
+                _nodePriorityMap[n] = ++_nodePriorityIndex;
+            }
+        }
+        
+        _globalZOrderNodeMap.clear();
     }
 }
 

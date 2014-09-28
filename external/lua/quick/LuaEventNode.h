@@ -55,7 +55,7 @@ public:
 
     ~LuaEventNode();
 
-    Node *getNode();
+    Node *getNode() const;
 
     virtual LuaEventNode* getParent();
     
