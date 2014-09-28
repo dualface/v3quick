@@ -55,7 +55,7 @@ LuaTouchEventManager* LuaTouchEventManager::getInstance()
 
 void LuaTouchEventManager::destroyInstance()
 {
-    log("---> LuaTouchEventManager::destroyInstance");
+//    log("---> LuaTouchEventManager::destroyInstance");
     CC_SAFE_DELETE(s_sharedLuaTouchEventManager);
 }
 
@@ -72,7 +72,7 @@ LuaTouchEventManager::LuaTouchEventManager()
 
 LuaTouchEventManager::~LuaTouchEventManager()
 {
-    log("---> Release LuaTouchEventManager");
+//    log("---> Release LuaTouchEventManager");
     if (_running) {
         cleanup();
     }
@@ -154,7 +154,8 @@ void LuaTouchEventManager::onTouchesBegan(const std::vector<Touch*>& touches, Ev
     LuaEventNode *checkTouchableNode = nullptr;
     LuaTouchTargetNode *touchTarget = nullptr;
 
-    for (auto iter=_touchableNodes.begin(); iter!=_touchableNodes.end(); ++iter) {
+    for (auto iter=_touchableNodes.begin(); iter!=_touchableNodes.end(); ++iter)
+    {
         checkTouchableNode = node = *iter;
 
         // check node is visible and capturing enabled

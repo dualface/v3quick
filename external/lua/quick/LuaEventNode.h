@@ -109,7 +109,6 @@ private:
     bool _bTouchCaptureEnabled;
     bool _bTouchSwallowEnabled;
     bool _bTouchEnabled;
-//    int _nTouchPriority;
     int _eTouchMode;
 
     virtual int executeScriptTouchHandler(int nEventType, Touch *pTouch, int phase = 1);

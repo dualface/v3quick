@@ -49,7 +49,7 @@ LuaEventNode::LuaEventNode(Node *node)
 
 LuaEventNode::~LuaEventNode()
 {
-    log("---> Release LuaEventNode");
+//    log("---> Release LuaEventNode");
 }
 
 Node *LuaEventNode::getNode() const
@@ -219,16 +219,14 @@ void LuaEventNode::setTouchEnabled(bool enabled)
     if (_bTouchEnabled != enabled)
     {
         _bTouchEnabled = enabled;
-        //if (_running)
+
+        if (enabled)
         {
-            if (enabled)
-            {
-                registerWithTouchDispatcher();
-            }
-            else
-            {
-                unregisterWithTouchDispatcher();
-            }
+            registerWithTouchDispatcher();
+        }
+        else
+        {
+            unregisterWithTouchDispatcher();
         }
     }
 }
@@ -388,7 +386,8 @@ static int callNodeEventDispatcher(LuaStack *stack, LuaValueDict &event)
     auto L = stack->getLuaState();
     stack->pushLuaValueDict(event);                            /* stack: mt func ud phase evt */
     int rn = stack->executeFunction(3);
-    if (rn==1) {
+    if (rn==1)
+    {
         bool b = lua_toboolean(L, -1);
         if (!b)
         {
