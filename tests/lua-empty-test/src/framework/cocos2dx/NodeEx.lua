@@ -184,7 +184,7 @@ function Node:addNodeEventListener( evt, hdl, tag, priority )
         self._scriptEventListeners_ = {}
 
         local function baseNodeEventListener( evt )
-            print('----base Node Event: ' .. evt .. '(' .. tostring(self) .. ')')
+            -- print('----base Node Event: ' .. evt .. '(' .. tostring(self) .. ')')
             self:EventDispatcher(c.NODE_EVENT, evt)
         end
 
@@ -250,9 +250,9 @@ local function KeypadEventCodeConvert( code )
 end
 
 function Node:EventDispatcher( idx, data )
-    if idx~=1 then
-        print("-----Entry Node:EventDispatcher: "..idx)
-    end
+    -- if idx~=1 then
+    --     print("-----Entry Node:EventDispatcher: "..idx)
+    -- end
     local obj = self
     local flagNodeCleanup = false
     local event
@@ -271,7 +271,7 @@ function Node:EventDispatcher( idx, data )
         event = { code=code, key=KeypadEventCodeConvert(code), }
     else
         event = data
-        dump(event)
+        -- dump(event)
     end
 
     local rnval = false
