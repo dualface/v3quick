@@ -297,6 +297,7 @@ void LuaTouchEventManager::onTouchesCancelled(const std::vector<Touch*>& touches
 
 void LuaTouchEventManager::cleanup(void)
 {
+    _nodePriorityMap.clear();
     _touchableNodes.clear();
     _touchingTargets.clear();
     if (_touchListener) {
