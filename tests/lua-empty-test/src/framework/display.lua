@@ -71,10 +71,12 @@ local sharedAnimationCache   = cc.AnimationCache:getInstance()
 
 -- check device screen size
 local glview = sharedDirector:getOpenGLView()
-if nil == glView then
-    glview = cc.GLViewImpl:create("Lua Empty Test")
+if nil == glview then
+    glview = cc.GLViewImpl:createWithRect("HelloLua",
+        cc.rect(0, 0, CONFIG_SCREEN_WIDTH or 900, CONFIG_SCREEN_HEIGHT or 640))
     sharedDirector:setOpenGLView(glview)
 end
+
 local size = glview:getFrameSize()
 display.sizeInPixels = {width = size.width, height = size.height}
 

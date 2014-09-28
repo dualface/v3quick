@@ -161,7 +161,7 @@ if DEBUG_MEM then
     ]]
     local function showMemoryUsage()
         printInfo(string.format("LUA VM MEMORY USED: %0.2f KB", collectgarbage("count")))
-        sharedTextureCache:dumpCachedTextureInfo()
+        printInfo(sharedTextureCache:getCachedTextureInfo())
         printInfo("---------------------------------------------------")
     end
     sharedDirector:getScheduler():scheduleScriptFunc(showMemoryUsage, DEBUG_MEM_INTERVAL or 10.0, false)
