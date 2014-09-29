@@ -328,6 +328,9 @@
     <Filter Include="Classes\BillBoardTest">
       <UniqueIdentifier>{54a30b92-ddfb-420e-908b-886c23c21cf1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\UITest\CocostudioGUISceneTest\UIWebViewTest">
+      <UniqueIdentifier>{a0b90b93-5575-4729-9afc-8a3839b378ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -440,6 +443,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\PerformanceTest\PerformanceCallbackTest.cpp">
       <Filter>Classes\PerformanceTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\OpenURLTest\OpenURLTest.cpp">
+      <Filter>Classes\OpenURLTest</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ZwoptexTest\ZwoptexTest.cpp">
       <Filter>Classes\ZwoptexTest</Filter>
@@ -864,6 +870,9 @@
     <ClCompile Include="..\Classes\BillBoardTest\BillBoardTest.cpp">
       <Filter>Classes\BillBoardTest</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIWebViewTest\UIWebViewTest.cpp">
+      <Filter>Classes\UITest\CocostudioGUISceneTest\UIWebViewTest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -982,6 +991,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\PerformanceTest\PerformanceCallbackTest.h">
       <Filter>Classes\PerformanceTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\OpenURLTest\OpenURLTest.h">
+      <Filter>Classes\OpenURLTest</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ZwoptexTest\ZwoptexTest.h">
       <Filter>Classes\ZwoptexTest</Filter>
@@ -1597,6 +1609,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\BillBoardTest\BillBoardTest.h">
       <Filter>Classes\BillBoardTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIWebViewTest\UIWebViewTest.h">
+      <Filter>Classes\UITest\CocostudioGUISceneTest\UIWebViewTest</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
