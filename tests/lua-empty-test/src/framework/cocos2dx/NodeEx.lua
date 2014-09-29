@@ -281,6 +281,7 @@ function Node:EventDispatcher( idx, data )
     local obj = self
     local flagNodeCleanup = false
     local event
+    local touch_event = nil
     if idx==c.NODE_EVENT then
         event = { name=data }
         if data=="cleanup" then
@@ -297,6 +298,7 @@ function Node:EventDispatcher( idx, data )
     else
         event = data
         -- dump(event)
+        touch_event = event
     end
 
     local rnval = false
@@ -313,7 +315,7 @@ function Node:EventDispatcher( idx, data )
             if v.removed_ then
                 flagNeedClean = true
             else
-                if evtname=="began" then
+                if touch_event and touch_event.name=="began" then
                     v.enable_ = true
                 end
 
