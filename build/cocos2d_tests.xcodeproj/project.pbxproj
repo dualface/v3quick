@@ -7926,7 +7926,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "_TARGET_BUILD_CONTENTS_PATH=$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH\necho _TARGET_BUILD_CONTENTS_PATH: $_TARGET_BUILD_CONTENTS_PATH\necho PWD: $PWD\n\necho Cleaning $_TARGET_BUILD_CONTENTS_PATH/\n\nrm -fr $_TARGET_BUILD_CONTENTS_PATH/src/*\n                                        \nmkdir -p $_TARGET_BUILD_CONTENTS_PATH/src/\n                                        \ncp -RLp $PWD/../tests/lua-empty-test/src/* $_TARGET_BUILD_CONTENTS_PATH/src/";
+			shellScript = "_TARGET_BUILD_CONTENTS_PATH=$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH\necho _TARGET_BUILD_CONTENTS_PATH: $_TARGET_BUILD_CONTENTS_PATH\necho PWD: $PWD\n\nfind $PWD/../tests/lua-empty-test/src/ -name \"*\" -exec touch -cm {} \\;\nfind $PWD/../tests/lua-empty-test/res/ -name \"*\" -exec touch -cm {} \\;";
 		};
 /* End PBXShellScriptBuildPhase section */
 
