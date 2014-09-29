@@ -74,13 +74,13 @@ Touch *LuaTouchTargetNode::findTouch(const std::vector<Touch*>& touches)
 
 Touch *LuaTouchTargetNode::findTouchFromTouchesSet(const std::vector<Touch*>& touches, int touchId)
 {
-    Touch *touch = NULL;
+    Touch *touch = nullptr;
     for (auto it = touches.begin(); it != touches.end(); ++it)
     {
         touch = (Touch*)*it;
         if (touch->getID() == touchId) return touch;
     }
-    return NULL;
+    return nullptr;
 }
 
 NS_CC_END

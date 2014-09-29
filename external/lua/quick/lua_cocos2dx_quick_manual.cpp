@@ -19,7 +19,7 @@ static int tolua_Cocos2d_Node_isTouchEnabled(lua_State* tolua_S)
     {
         Node* self = static_cast<cocos2d::Node*>(tolua_tousertype(tolua_S,1,0));
 #if COCOS2D_DEBUG >= 1
-        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isTouchEnabled'", NULL);
+        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isTouchEnabled'", nullptr);
 #endif
         {
             auto mng = LuaNodeManager::getInstance();
@@ -55,7 +55,7 @@ static int tolua_Cocos2d_Node_setTouchEnabled(lua_State* tolua_S)
         Node* node = static_cast<cocos2d::Node*>(tolua_tousertype(tolua_S,1,0));
         bool value = ((bool)  tolua_toboolean(tolua_S,2,0));
 #if COCOS2D_DEBUG >= 1
-        if (!node) tolua_error(tolua_S,"invalid 'self' in function 'setTouchEnabled'", NULL);
+        if (!node) tolua_error(tolua_S,"invalid 'self' in function 'setTouchEnabled'", nullptr);
 #endif
         {
             auto mng = LuaNodeManager::getInstance();
@@ -88,7 +88,7 @@ static int tolua_Cocos2d_Node_isTouchSwallowEnabled(lua_State* tolua_S)
     {
         Node* self = static_cast<cocos2d::Node*>(tolua_tousertype(tolua_S,1,0));
 #if COCOS2D_DEBUG >= 1
-        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isTouchSwallowEnabled'", NULL);
+        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isTouchSwallowEnabled'", nullptr);
 #endif
         {
             auto mng = LuaNodeManager::getInstance();
@@ -124,7 +124,7 @@ static int tolua_Cocos2d_Node_setTouchSwallowEnabled(lua_State* tolua_S)
         Node* self = static_cast<cocos2d::Node*>(tolua_tousertype(tolua_S,1,0));
         bool value = ((bool)  tolua_toboolean(tolua_S,2,0));
 #if COCOS2D_DEBUG >= 1
-        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setTouchSwallowEnabled'", NULL);
+        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setTouchSwallowEnabled'", nullptr);
 #endif
         {
             auto mng = LuaNodeManager::getInstance();
@@ -157,7 +157,7 @@ static int tolua_Cocos2d_Node_isTouchCaptureEnabled(lua_State* tolua_S)
     {
         Node* self = static_cast<cocos2d::Node*>(tolua_tousertype(tolua_S,1,0));
 #if COCOS2D_DEBUG >= 1
-        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isTouchCaptureEnabled'", NULL);
+        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'isTouchCaptureEnabled'", nullptr);
 #endif
         {
             auto mng = LuaNodeManager::getInstance();
@@ -193,7 +193,7 @@ static int tolua_Cocos2d_Node_setTouchCaptureEnabled(lua_State* tolua_S)
         Node* self = static_cast<cocos2d::Node*>(tolua_tousertype(tolua_S,1,0));
         bool value = ((bool)  tolua_toboolean(tolua_S,2,0));
 #if COCOS2D_DEBUG >= 1
-        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setTouchCaptureEnabled'", NULL);
+        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setTouchCaptureEnabled'", nullptr);
 #endif
         {
             auto mng = LuaNodeManager::getInstance();
@@ -228,7 +228,7 @@ static int tolua_Cocos2d_Node_setTouchMode(lua_State* tolua_S)
         Node* self = (Node*)  tolua_tousertype(tolua_S,1,0);
         int mode = ((int)  tolua_tonumber(tolua_S,2,0));
 #if COCOS2D_DEBUG >= 1
-        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setTouchMode'", NULL);
+        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setTouchMode'", nullptr);
 #endif
         {
             auto mng = LuaNodeManager::getInstance();
@@ -261,7 +261,7 @@ static int tolua_Cocos2d_Node_getTouchMode(lua_State* tolua_S)
     {
         Node* self = (Node*)  tolua_tousertype(tolua_S,1,0);
 #if COCOS2D_DEBUG >= 1
-        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getTouchMode'", NULL);
+        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'getTouchMode'", nullptr);
 #endif
         {
             auto mng = LuaNodeManager::getInstance();
@@ -295,7 +295,7 @@ static int tolua_Cocos2d_Node_removeTouchEvent(lua_State* tolua_S)
     {
         Node* node = static_cast<cocos2d::Node*>(tolua_tousertype(tolua_S,1,0));
 #if COCOS2D_DEBUG >= 1
-        if (!node) tolua_error(tolua_S,"invalid 'self' in function 'removeTouchEvent'", NULL);
+        if (!node) tolua_error(tolua_S,"invalid 'self' in function 'removeTouchEvent'", nullptr);
 #endif
         {
             auto mng = LuaNodeManager::getInstance();
