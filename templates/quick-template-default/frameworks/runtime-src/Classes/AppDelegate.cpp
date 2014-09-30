@@ -37,7 +37,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     lua_State* L = stack->getLuaState();
     lua_module_register(L);
     stack->addSearchPath("src");
-    if (engine->executeScriptFile("src/main.lua")) {
+    if (engine->executeScriptFile("main.lua")) {
         return false;
     }
 
