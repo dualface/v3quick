@@ -14,6 +14,7 @@
 #include "3d/lua_cocos2dx_3d_manual.h"
 #include "audioengine/lua_cocos2dx_audioengine_manual.h"
 
+#include "external/filters/luabinding/manual/lua_cocos2dx_external_filter_manual.hpp"
 
 int lua_module_register(lua_State* L)
 {
@@ -33,6 +34,8 @@ int lua_module_register(lua_State* L)
     register_audioengine_module(L);
 #endif
     
+    register_filter_moudle(L);
+
     return 1;
 }
 
