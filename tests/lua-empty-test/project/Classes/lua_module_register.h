@@ -14,6 +14,7 @@
 #include "3d/lua_cocos2dx_3d_manual.h"
 #include "audioengine/lua_cocos2dx_audioengine_manual.h"
 
+#include "external/lua/filters/luabinding/lua_cocos2dx_extension_filter_auto.hpp"
 
 int lua_module_register(lua_State* L)
 {
@@ -32,6 +33,8 @@ int lua_module_register(lua_State* L)
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     register_audioengine_module(L);
 #endif
+    
+    register_all_cocos2dx_extension_filter(L);
     
     return 1;
 }
