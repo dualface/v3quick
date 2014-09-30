@@ -1819,6 +1819,10 @@
 		DAA1970119D9279E00889B6A /* CCClippingRegionNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAA196FE19D9279E00889B6A /* CCClippingRegionNode.cpp */; };
 		DAA1970219D9279E00889B6A /* CCClippingRegionNode.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA196FF19D9279E00889B6A /* CCClippingRegionNode.h */; };
 		DAA1970319D9279E00889B6A /* CCClippingRegionNode.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA196FF19D9279E00889B6A /* CCClippingRegionNode.h */; };
+		DAA1974619DA98C300889B6A /* ioapi_mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAA1974419DA98C300889B6A /* ioapi_mem.cpp */; };
+		DAA1974719DA98C300889B6A /* ioapi_mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DAA1974419DA98C300889B6A /* ioapi_mem.cpp */; };
+		DAA1974819DA98C300889B6A /* ioapi_mem.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA1974519DA98C300889B6A /* ioapi_mem.h */; };
+		DAA1974919DA98C300889B6A /* ioapi_mem.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA1974519DA98C300889B6A /* ioapi_mem.h */; };
 		ED9C6A9418599AD8000A5232 /* CCNodeGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9C6A9218599AD8000A5232 /* CCNodeGrid.cpp */; };
 		ED9C6A9518599AD8000A5232 /* CCNodeGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9C6A9218599AD8000A5232 /* CCNodeGrid.cpp */; };
 		ED9C6A9618599AD8000A5232 /* CCNodeGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = ED9C6A9318599AD8000A5232 /* CCNodeGrid.h */; };
@@ -2806,11 +2810,13 @@
 		B3AF019F1842FBA400A98B85 /* b2MotorJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2MotorJoint.h; sourceTree = "<group>"; };
 		B60C5BD219AC68B10056FBDE /* CCBillBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCBillBoard.cpp; sourceTree = "<group>"; };
 		B60C5BD319AC68B10056FBDE /* CCBillBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBillBoard.h; sourceTree = "<group>"; };
-		DAA196FE19D9279E00889B6A /* CCClippingRegionNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCClippingRegionNode.cpp; sourceTree = "<group>"; };
-		DAA196FF19D9279E00889B6A /* CCClippingRegionNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCClippingRegionNode.h; sourceTree = "<group>"; };
 		B67C624319D4186F00F11FC6 /* ccShader_3D_ColorNormal.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ccShader_3D_ColorNormal.frag; sourceTree = "<group>"; };
 		B67C624419D4186F00F11FC6 /* ccShader_3D_ColorNormalTex.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ccShader_3D_ColorNormalTex.frag; sourceTree = "<group>"; };
 		B67C624519D4186F00F11FC6 /* ccShader_3D_PositionNormalTex.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = ccShader_3D_PositionNormalTex.vert; sourceTree = "<group>"; };
+		DAA196FE19D9279E00889B6A /* CCClippingRegionNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCClippingRegionNode.cpp; sourceTree = "<group>"; };
+		DAA196FF19D9279E00889B6A /* CCClippingRegionNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCClippingRegionNode.h; sourceTree = "<group>"; };
+		DAA1974419DA98C300889B6A /* ioapi_mem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ioapi_mem.cpp; sourceTree = "<group>"; };
+		DAA1974519DA98C300889B6A /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi_mem.h; sourceTree = "<group>"; };
 		ED9C6A9218599AD8000A5232 /* CCNodeGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = CCNodeGrid.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		ED9C6A9318599AD8000A5232 /* CCNodeGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNodeGrid.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3360,6 +3366,8 @@
 		1A57034F180BD0B00088DEC7 /* unzip */ = {
 			isa = PBXGroup;
 			children = (
+				DAA1974419DA98C300889B6A /* ioapi_mem.cpp */,
+				DAA1974519DA98C300889B6A /* ioapi_mem.h */,
 				1A570350180BD0B00088DEC7 /* ioapi.cpp */,
 				1A570351180BD0B00088DEC7 /* ioapi.h */,
 				1A570352180BD0B00088DEC7 /* unzip.cpp */,
@@ -5143,6 +5151,7 @@
 				15AE1A5119AAD40300C27E9E /* b2BlockAllocator.h in Headers */,
 				15AE19C719AAD3A700C27E9E /* AnimationState.h in Headers */,
 				15AE199119AAD37200C27E9E /* ImageViewReader.h in Headers */,
+				DAA1974819DA98C300889B6A /* ioapi_mem.h in Headers */,
 				15AE18FE19AAD35000C27E9E /* CCComAttribute.h in Headers */,
 				50ABBD621925AB0000A911A9 /* Vec4.h in Headers */,
 				B60C5BD619AC68B10056FBDE /* CCBillBoard.h in Headers */,
@@ -5509,6 +5518,7 @@
 				15AE1BAA19AADFDF00C27E9E /* UIVBox.h in Headers */,
 				15AE194E19AAD35100C27E9E /* CCDataReaderHelper.h in Headers */,
 				15AE1ADB19AAD41000C27E9E /* b2Rope.h in Headers */,
+				DAA1974919DA98C300889B6A /* ioapi_mem.h in Headers */,
 				1A5701CE180BCB5A0088DEC7 /* CCLabelTTF.h in Headers */,
 				15AE1AB119AAD40300C27E9E /* b2ChainAndPolygonContact.h in Headers */,
 				15AE1A1E19AAD3A700C27E9E /* SlotData.h in Headers */,
@@ -5953,6 +5963,7 @@
 				15AE189F19AAD33D00C27E9E /* CCNodeLoaderLibrary.cpp in Sources */,
 				1A570081180BC5A10088DEC7 /* CCActionManager.cpp in Sources */,
 				15AE1A6119AAD40300C27E9E /* b2Fixture.cpp in Sources */,
+				DAA1974619DA98C300889B6A /* ioapi_mem.cpp in Sources */,
 				1A570085180BC5A10088DEC7 /* CCActionPageTurn3D.cpp in Sources */,
 				1A570089180BC5A10088DEC7 /* CCActionProgressTimer.cpp in Sources */,
 				DAA1970019D9279E00889B6A /* CCClippingRegionNode.cpp in Sources */,
@@ -6385,6 +6396,7 @@
 				15AE1B7E19AADA9A00C27E9E /* UIText.cpp in Sources */,
 				15AE1A3E19AAD3D500C27E9E /* b2CollidePolygon.cpp in Sources */,
 				15AE1AB219AAD40300C27E9E /* b2CircleContact.cpp in Sources */,
+				DAA1974719DA98C300889B6A /* ioapi_mem.cpp in Sources */,
 				15AE1A1919AAD3A700C27E9E /* Skin.cpp in Sources */,
 				15AE18C119AAD33D00C27E9E /* CCLayerColorLoader.cpp in Sources */,
 				B37510851823ACA100B3BA6A /* CCPhysicsWorldInfo_chipmunk.cpp in Sources */,
