@@ -33,11 +33,24 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     auto engine = LuaEngine::getInstance();
     ScriptEngineManager::getInstance()->setScriptEngine(engine);
-    lua_State* L = engine->getLuaStack()->getLuaState();
+    LuaStack *stack = engine->getLuaStack();
+    lua_State* L = stack->getLuaState();
     lua_module_register(L);
+#if CC_ENABLE_QUICK_LUA
+    FileUtils::getInstance()->setPopupNotify(false);
+    const char * key = "test";
+    const char * sign = "XT";
+    stack->setXXTEAKeyAndSign(key, strlen(key), sign, strlen(sign));
+    stack->loadChunksFromZIP("res/framework_quick.zip");
+    stack->addSearchPath("src");
+    if (engine->executeScriptFile("main.lua")) {
+        return false;
+    }
+#else
     if (engine->executeScriptFile("src/main.lua")) {
         return false;
     }
+#endif
 
     return true;
 }
