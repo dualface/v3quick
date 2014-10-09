@@ -30,6 +30,7 @@
 #include "base/CCData.h"
 #include "base/ccMacros.h"
 #include "platform/CCFileUtils.h"
+#include "unzip.h"
 #include <map>
 
 NS_CC_BEGIN
@@ -508,7 +509,7 @@ ZipFile *ZipFile::createWithBuffer(const void* buffer, uLong size)
         return zip;
     } else {
         if (zip) delete zip;
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -651,7 +652,7 @@ std::string ZipFile::getNextFilename()
 int ZipFile::getCurrentFileInfo(std::string *filename, unz_file_info *info)
 {
     char path[FILENAME_MAX + 1];
-    int ret = unzGetCurrentFileInfo(_data->zipFile, info, path, sizeof(path), NULL, 0, NULL, 0);
+    int ret = unzGetCurrentFileInfo(_data->zipFile, info, path, sizeof(path), nullptr, 0, nullptr, 0);
     if (ret != UNZ_OK) {
         *filename = emptyFilename;
     } else {

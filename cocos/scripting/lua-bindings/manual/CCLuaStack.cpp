@@ -177,7 +177,7 @@ bool LuaStack::init(void)
     const luaL_reg global_functions [] = {
         {"print", lua_print},
         {"release_print",lua_release_print},
-        {NULL, NULL}
+        {nullptr, nullptr}
     };
     luaL_register(_state, "_G", global_functions);
 
@@ -584,7 +584,7 @@ int LuaStack::executeFunctionReturnArray(int handler,int numArgs,int numResults,
                 
             }else{
                 
-                resultArray.addObject(static_cast<Ref*>(tolua_tousertype(_state, -1, NULL)));
+                resultArray.addObject(static_cast<Ref*>(tolua_tousertype(_state, -1, nullptr)));
             }
             // remove return value from stack
             lua_pop(_state, 1);                                                /* L: ... [G] ret1 ret2 ... ret*/

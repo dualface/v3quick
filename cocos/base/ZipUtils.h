@@ -215,6 +215,8 @@ namespace cocos2d
 
     // forward declaration
     class ZipFilePrivate;
+    struct unz_file_info_s;
+    typedef struct unz_file_info_s unz_file_info;
 
     /**
     * Zip file - reader helper class.
