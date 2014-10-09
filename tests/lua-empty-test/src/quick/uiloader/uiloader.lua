@@ -45,12 +45,11 @@ end
 解析json文件
 
 @param string jsonFile 要解析的json文件
-@param table params 解析参数
 
 @return node 解析后的布局
 
 ]]
-function uiloader:load(jsonFile, params)
+function uiloader:load(jsonFile)
 	local json = self:loadFile_(jsonFile)
 	if not json then
 		print("uiloader - load file fail:" .. jsonFile)
@@ -60,9 +59,9 @@ function uiloader:load(jsonFile, params)
 	local node
 
 	if self:isScene_(json) then
-		node, w, h = CCSSceneLoader:load(json, params)
+		node, w, h = CCSSceneLoader:load(json)
 	else
-		node, w, h = CCSUILoader:load(json, params)
+		node, w, h = CCSUILoader:load(json)
 	end
 
 	return node, w, h

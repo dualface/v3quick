@@ -9,6 +9,7 @@ function CCSUILoader:load(json, params)
 		self.bUseEditBox = false
 	end
 
+	-- CCEditbox(C++ widget) not support no background
 	self.bUseEditBox = false
 
 	-- local fileUtil = cc.FileUtils:getInstance()

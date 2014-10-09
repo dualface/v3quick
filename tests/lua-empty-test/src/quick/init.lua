@@ -116,9 +116,7 @@ printInfo("#")
 device     = require(cc.PACKAGE_NAME .. ".device")
 transition = require(cc.PACKAGE_NAME .. ".transition")
 display    = require(cc.PACKAGE_NAME .. ".display")
-
 audio      = require(cc.PACKAGE_NAME .. ".audio")
-
 network    = require(cc.PACKAGE_NAME .. ".network")
 
 if device.platform == "android" then
