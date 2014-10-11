@@ -10577,8 +10577,7 @@ int lua_cocos2dx_GLView_setGLContextAttrs(lua_State* tolua_S)
     if (argc == 1)
     {
         GLContextAttrs arg0;
-        #pragma warning NO CONVERSION TO NATIVE FOR GLContextAttrs
-		ok = false;
+        #pragma warning NO CONVERSION TO NATIVE FOR GLContextAttrs;
         if(!ok)
             return 0;
         cocos2d::GLView::setGLContextAttrs(arg0);
@@ -45121,10 +45120,10 @@ int lua_register_cocos2dx_ClippingNode(lua_State* tolua_S)
     return 1;
 }
 
-int lua_cocos2dx_ClippingRegionNode_isClippingEnabled(lua_State* tolua_S)
+int lua_cocos2dx_ClippingRectangleNode_isClippingEnabled(lua_State* tolua_S)
 {
     int argc = 0;
-    cocos2d::ClippingRegionNode* cobj = nullptr;
+    cocos2d::ClippingRectangleNode* cobj = nullptr;
     bool ok  = true;
 
 #if COCOS2D_DEBUG >= 1
@@ -45133,15 +45132,15 @@ int lua_cocos2dx_ClippingRegionNode_isClippingEnabled(lua_State* tolua_S)
 
 
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertype(tolua_S,1,"cc.ClippingRegionNode",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertype(tolua_S,1,"cc.ClippingRectangleNode",0,&tolua_err)) goto tolua_lerror;
 #endif
 
-    cobj = (cocos2d::ClippingRegionNode*)tolua_tousertype(tolua_S,1,0);
+    cobj = (cocos2d::ClippingRectangleNode*)tolua_tousertype(tolua_S,1,0);
 
 #if COCOS2D_DEBUG >= 1
     if (!cobj) 
     {
-        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_ClippingRegionNode_isClippingEnabled'", nullptr);
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_ClippingRectangleNode_isClippingEnabled'", nullptr);
         return 0;
     }
 #endif
@@ -45151,24 +45150,24 @@ int lua_cocos2dx_ClippingRegionNode_isClippingEnabled(lua_State* tolua_S)
     {
         if(!ok)
             return 0;
-        bool ret = cobj->isClippingEnabled();
+        const bool ret = cobj->isClippingEnabled();
         tolua_pushboolean(tolua_S,(bool)ret);
         return 1;
     }
-    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "cc.ClippingRegionNode:isClippingEnabled",argc, 0);
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "cc.ClippingRectangleNode:isClippingEnabled",argc, 0);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRegionNode_isClippingEnabled'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRectangleNode_isClippingEnabled'.",&tolua_err);
 #endif
 
     return 0;
 }
-int lua_cocos2dx_ClippingRegionNode_setClippingEnabled(lua_State* tolua_S)
+int lua_cocos2dx_ClippingRectangleNode_setClippingEnabled(lua_State* tolua_S)
 {
     int argc = 0;
-    cocos2d::ClippingRegionNode* cobj = nullptr;
+    cocos2d::ClippingRectangleNode* cobj = nullptr;
     bool ok  = true;
 
 #if COCOS2D_DEBUG >= 1
@@ -45177,15 +45176,15 @@ int lua_cocos2dx_ClippingRegionNode_setClippingEnabled(lua_State* tolua_S)
 
 
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertype(tolua_S,1,"cc.ClippingRegionNode",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertype(tolua_S,1,"cc.ClippingRectangleNode",0,&tolua_err)) goto tolua_lerror;
 #endif
 
-    cobj = (cocos2d::ClippingRegionNode*)tolua_tousertype(tolua_S,1,0);
+    cobj = (cocos2d::ClippingRectangleNode*)tolua_tousertype(tolua_S,1,0);
 
 #if COCOS2D_DEBUG >= 1
     if (!cobj) 
     {
-        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_ClippingRegionNode_setClippingEnabled'", nullptr);
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_ClippingRectangleNode_setClippingEnabled'", nullptr);
         return 0;
     }
 #endif
@@ -45195,26 +45194,26 @@ int lua_cocos2dx_ClippingRegionNode_setClippingEnabled(lua_State* tolua_S)
     {
         bool arg0;
 
-        ok &= luaval_to_boolean(tolua_S, 2,&arg0, "cc.ClippingRegionNode:setClippingEnabled");
+        ok &= luaval_to_boolean(tolua_S, 2,&arg0, "cc.ClippingRectangleNode:setClippingEnabled");
         if(!ok)
             return 0;
         cobj->setClippingEnabled(arg0);
         return 0;
     }
-    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "cc.ClippingRegionNode:setClippingEnabled",argc, 1);
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "cc.ClippingRectangleNode:setClippingEnabled",argc, 1);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRegionNode_setClippingEnabled'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRectangleNode_setClippingEnabled'.",&tolua_err);
 #endif
 
     return 0;
 }
-int lua_cocos2dx_ClippingRegionNode_getClippingRegion(lua_State* tolua_S)
+int lua_cocos2dx_ClippingRectangleNode_getClippingRegion(lua_State* tolua_S)
 {
     int argc = 0;
-    cocos2d::ClippingRegionNode* cobj = nullptr;
+    cocos2d::ClippingRectangleNode* cobj = nullptr;
     bool ok  = true;
 
 #if COCOS2D_DEBUG >= 1
@@ -45223,15 +45222,15 @@ int lua_cocos2dx_ClippingRegionNode_getClippingRegion(lua_State* tolua_S)
 
 
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertype(tolua_S,1,"cc.ClippingRegionNode",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertype(tolua_S,1,"cc.ClippingRectangleNode",0,&tolua_err)) goto tolua_lerror;
 #endif
 
-    cobj = (cocos2d::ClippingRegionNode*)tolua_tousertype(tolua_S,1,0);
+    cobj = (cocos2d::ClippingRectangleNode*)tolua_tousertype(tolua_S,1,0);
 
 #if COCOS2D_DEBUG >= 1
     if (!cobj) 
     {
-        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_ClippingRegionNode_getClippingRegion'", nullptr);
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_ClippingRectangleNode_getClippingRegion'", nullptr);
         return 0;
     }
 #endif
@@ -45241,24 +45240,24 @@ int lua_cocos2dx_ClippingRegionNode_getClippingRegion(lua_State* tolua_S)
     {
         if(!ok)
             return 0;
-        cocos2d::Rect ret = cobj->getClippingRegion();
+        const cocos2d::Rect& ret = cobj->getClippingRegion();
         rect_to_luaval(tolua_S, ret);
         return 1;
     }
-    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "cc.ClippingRegionNode:getClippingRegion",argc, 0);
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "cc.ClippingRectangleNode:getClippingRegion",argc, 0);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRegionNode_getClippingRegion'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRectangleNode_getClippingRegion'.",&tolua_err);
 #endif
 
     return 0;
 }
-int lua_cocos2dx_ClippingRegionNode_setClippingRegion(lua_State* tolua_S)
+int lua_cocos2dx_ClippingRectangleNode_setClippingRegion(lua_State* tolua_S)
 {
     int argc = 0;
-    cocos2d::ClippingRegionNode* cobj = nullptr;
+    cocos2d::ClippingRectangleNode* cobj = nullptr;
     bool ok  = true;
 
 #if COCOS2D_DEBUG >= 1
@@ -45267,15 +45266,15 @@ int lua_cocos2dx_ClippingRegionNode_setClippingRegion(lua_State* tolua_S)
 
 
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertype(tolua_S,1,"cc.ClippingRegionNode",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertype(tolua_S,1,"cc.ClippingRectangleNode",0,&tolua_err)) goto tolua_lerror;
 #endif
 
-    cobj = (cocos2d::ClippingRegionNode*)tolua_tousertype(tolua_S,1,0);
+    cobj = (cocos2d::ClippingRectangleNode*)tolua_tousertype(tolua_S,1,0);
 
 #if COCOS2D_DEBUG >= 1
     if (!cobj) 
     {
-        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_ClippingRegionNode_setClippingRegion'", nullptr);
+        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_ClippingRectangleNode_setClippingRegion'", nullptr);
         return 0;
     }
 #endif
@@ -45285,23 +45284,23 @@ int lua_cocos2dx_ClippingRegionNode_setClippingRegion(lua_State* tolua_S)
     {
         cocos2d::Rect arg0;
 
-        ok &= luaval_to_rect(tolua_S, 2, &arg0, "cc.ClippingRegionNode:setClippingRegion");
+        ok &= luaval_to_rect(tolua_S, 2, &arg0, "cc.ClippingRectangleNode:setClippingRegion");
         if(!ok)
             return 0;
         cobj->setClippingRegion(arg0);
         return 0;
     }
-    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "cc.ClippingRegionNode:setClippingRegion",argc, 1);
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d \n", "cc.ClippingRectangleNode:setClippingRegion",argc, 1);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRegionNode_setClippingRegion'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRectangleNode_setClippingRegion'.",&tolua_err);
 #endif
 
     return 0;
 }
-int lua_cocos2dx_ClippingRegionNode_create(lua_State* tolua_S)
+int lua_cocos2dx_ClippingRectangleNode_create(lua_State* tolua_S)
 {
     int argc = 0;
     bool ok  = true;
@@ -45310,7 +45309,7 @@ int lua_cocos2dx_ClippingRegionNode_create(lua_State* tolua_S)
 #endif
 
 #if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertable(tolua_S,1,"cc.ClippingRegionNode",0,&tolua_err)) goto tolua_lerror;
+    if (!tolua_isusertable(tolua_S,1,"cc.ClippingRectangleNode",0,&tolua_err)) goto tolua_lerror;
 #endif
 
     argc = lua_gettop(tolua_S)-1;
@@ -45319,8 +45318,8 @@ int lua_cocos2dx_ClippingRegionNode_create(lua_State* tolua_S)
     {
         if (argc == 0)
         {
-            cocos2d::ClippingRegionNode* ret = cocos2d::ClippingRegionNode::create();
-            object_to_luaval<cocos2d::ClippingRegionNode>(tolua_S, "cc.ClippingRegionNode",(cocos2d::ClippingRegionNode*)ret);
+            cocos2d::ClippingRectangleNode* ret = cocos2d::ClippingRectangleNode::create();
+            object_to_luaval<cocos2d::ClippingRectangleNode>(tolua_S, "cc.ClippingRectangleNode",(cocos2d::ClippingRectangleNode*)ret);
             return 1;
         }
     } while (0);
@@ -45330,43 +45329,43 @@ int lua_cocos2dx_ClippingRegionNode_create(lua_State* tolua_S)
         if (argc == 1)
         {
             cocos2d::Rect arg0;
-            ok &= luaval_to_rect(tolua_S, 2, &arg0, "cc.ClippingRegionNode:create");
+            ok &= luaval_to_rect(tolua_S, 2, &arg0, "cc.ClippingRectangleNode:create");
             if (!ok) { break; }
-            cocos2d::ClippingRegionNode* ret = cocos2d::ClippingRegionNode::create(arg0);
-            object_to_luaval<cocos2d::ClippingRegionNode>(tolua_S, "cc.ClippingRegionNode",(cocos2d::ClippingRegionNode*)ret);
+            cocos2d::ClippingRectangleNode* ret = cocos2d::ClippingRectangleNode::create(arg0);
+            object_to_luaval<cocos2d::ClippingRectangleNode>(tolua_S, "cc.ClippingRectangleNode",(cocos2d::ClippingRectangleNode*)ret);
             return 1;
         }
     } while (0);
     ok  = true;
-    CCLOG("%s has wrong number of arguments: %d, was expecting %d", "cc.ClippingRegionNode:create",argc, 1);
+    CCLOG("%s has wrong number of arguments: %d, was expecting %d", "cc.ClippingRectangleNode:create",argc, 1);
     return 0;
 #if COCOS2D_DEBUG >= 1
     tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRegionNode_create'.",&tolua_err);
+    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_ClippingRectangleNode_create'.",&tolua_err);
 #endif
     return 0;
 }
-static int lua_cocos2dx_ClippingRegionNode_finalize(lua_State* tolua_S)
+static int lua_cocos2dx_ClippingRectangleNode_finalize(lua_State* tolua_S)
 {
-    printf("luabindings: finalizing LUA object (ClippingRegionNode)");
+    printf("luabindings: finalizing LUA object (ClippingRectangleNode)");
     return 0;
 }
 
-int lua_register_cocos2dx_ClippingRegionNode(lua_State* tolua_S)
+int lua_register_cocos2dx_ClippingRectangleNode(lua_State* tolua_S)
 {
-    tolua_usertype(tolua_S,"cc.ClippingRegionNode");
-    tolua_cclass(tolua_S,"ClippingRegionNode","cc.ClippingRegionNode","cc.Node",nullptr);
+    tolua_usertype(tolua_S,"cc.ClippingRectangleNode");
+    tolua_cclass(tolua_S,"ClippingRectangleNode","cc.ClippingRectangleNode","cc.Node",nullptr);
 
-    tolua_beginmodule(tolua_S,"ClippingRegionNode");
-        tolua_function(tolua_S,"isClippingEnabled",lua_cocos2dx_ClippingRegionNode_isClippingEnabled);
-        tolua_function(tolua_S,"setClippingEnabled",lua_cocos2dx_ClippingRegionNode_setClippingEnabled);
-        tolua_function(tolua_S,"getClippingRegion",lua_cocos2dx_ClippingRegionNode_getClippingRegion);
-        tolua_function(tolua_S,"setClippingRegion",lua_cocos2dx_ClippingRegionNode_setClippingRegion);
-        tolua_function(tolua_S,"create", lua_cocos2dx_ClippingRegionNode_create);
+    tolua_beginmodule(tolua_S,"ClippingRectangleNode");
+        tolua_function(tolua_S,"isClippingEnabled",lua_cocos2dx_ClippingRectangleNode_isClippingEnabled);
+        tolua_function(tolua_S,"setClippingEnabled",lua_cocos2dx_ClippingRectangleNode_setClippingEnabled);
+        tolua_function(tolua_S,"getClippingRegion",lua_cocos2dx_ClippingRectangleNode_getClippingRegion);
+        tolua_function(tolua_S,"setClippingRegion",lua_cocos2dx_ClippingRectangleNode_setClippingRegion);
+        tolua_function(tolua_S,"create", lua_cocos2dx_ClippingRectangleNode_create);
     tolua_endmodule(tolua_S);
-    std::string typeName = typeid(cocos2d::ClippingRegionNode).name();
-    g_luaType[typeName] = "cc.ClippingRegionNode";
-    g_typeCast["ClippingRegionNode"] = "cc.ClippingRegionNode";
+    std::string typeName = typeid(cocos2d::ClippingRectangleNode).name();
+    g_luaType[typeName] = "cc.ClippingRectangleNode";
+    g_typeCast["ClippingRectangleNode"] = "cc.ClippingRectangleNode";
     return 1;
 }
 
@@ -65962,7 +65961,6 @@ TOLUA_API int register_all_cocos2dx(lua_State* tolua_S)
 	lua_register_cocos2dx_RenderTexture(tolua_S);
 	lua_register_cocos2dx_TintBy(tolua_S);
 	lua_register_cocos2dx_TransitionShrinkGrow(tolua_S);
-	lua_register_cocos2dx_ClippingRegionNode(tolua_S);
 	lua_register_cocos2dx_ClippingNode(tolua_S);
 	lua_register_cocos2dx_ParticleFlower(tolua_S);
 	lua_register_cocos2dx_EaseCircleActionIn(tolua_S);
@@ -66054,6 +66052,7 @@ TOLUA_API int register_all_cocos2dx(lua_State* tolua_S)
 	lua_register_cocos2dx_Liquid(tolua_S);
 	lua_register_cocos2dx_OrbitCamera(tolua_S);
 	lua_register_cocos2dx_ParallaxNode(tolua_S);
+	lua_register_cocos2dx_ClippingRectangleNode(tolua_S);
 	lua_register_cocos2dx_EventCustom(tolua_S);
 	lua_register_cocos2dx_TransitionFade(tolua_S);
 	lua_register_cocos2dx_Component(tolua_S);
