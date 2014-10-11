@@ -22,16 +22,25 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
+
+// FIXME: hack, must be included before ziputils
+#include "unzip.h"
+#include "base/ZipUtils.h"
+
 #include <zlib.h>
 #include <assert.h>
 #include <stdlib.h>
 
-#include "base/ZipUtils.h"
 #include "base/CCData.h"
 #include "base/ccMacros.h"
 #include "platform/CCFileUtils.h"
-#include "unzip.h"
 #include <map>
+
+// FIXME: Other platforms should use upstream minizip like mingw-w64  
+#ifdef __MINGW32__
+#define unzGoToFirstFile64(A,B,C,D) unzGoToFirstFile2(A,B,C,D, NULL, 0, NULL, 0)
+#define unzGoToNextFile64(A,B,C,D) unzGoToNextFile2(A,B,C,D, NULL, 0, NULL, 0)
+#endif
 
 NS_CC_BEGIN
 
