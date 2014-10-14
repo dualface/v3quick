@@ -485,6 +485,11 @@ function display.newNode()
     return cc.Node:create()
 end
 
+if cc.ClippingRectangleNode then
+    cc.ClippingRegionNode = cc.ClippingRectangleNode
+else
+    cc.ClippingRectangleNode = cc.ClippingRegionNode
+end
 --[[--
 
 创建并返回一个 ClippingRegionNode 对象。
