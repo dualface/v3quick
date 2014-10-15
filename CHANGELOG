@@ -6,11 +6,13 @@ cocos2d-x-3.3-beta1
     [NEW]           Lua-binding: added Camera3DTest ,BillBoradTest
     [NEW]           Node: schedule/unschedule lambda functions
     [NEW]           Rect: added merge()
+    [NEW]           TileMap: added staggered tile map support
     [NEW]           Utils: added getCascadeBoundingBox()
     [NEW]           UI: `WebView` support on windows
     [NEW]           WP8: enabled screen orientation change handling
     
     [FIX]           Accelerometer: using Accelerometer will freeze app and then crash on WP8
+    [FIX]           Application: getCurrentLanguageCode() always return empty string
     [FIX]           Action: kRepeatForever macro superseded by CC_REPEAT_FOREVER macro
     [FIX]           C++: remove armv7s in VALID_ARCHS for Xcode projects
     [FIX]           Cocos Studio reader: UI animation playing crash if GUI JSON file is loaded again
