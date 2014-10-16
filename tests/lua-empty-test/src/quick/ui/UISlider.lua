@@ -45,8 +45,9 @@ UISlider.RELEASE_EVENT = "RELEASE_EVENT"
 UISlider.STATE_CHANGED_EVENT = "STATE_CHANGED_EVENT"
 UISlider.VALUE_CHANGED_EVENT = "VALUE_CHANGED_EVENT"
 
-UISlider.BAR_ZORDER = 0
-UISlider.BUTTON_ZORDER = 1
+UISlider.BAR_ZORDER = 0     -- background bar
+UISlider.BARFG_ZORDER = 1   -- foreground bar
+UISlider.BUTTON_ZORDER = 2
 
 --[[--
 
@@ -134,10 +135,16 @@ end
 
 ]]
 function UISlider:setSliderSize(width, height)
-    assert(self.scale9_, "UISlider:setSliderSize() - can't change size for non-scale9 slider")
+    -- assert(self.scale9_, "UISlider:setSliderSize() - can't change size for non-scale9 slider")
     self.scale9Size_ = {width, height}
     if self.barSprite_ then
-        self.barSprite_:setContentSize(cc.size(self.scale9Size_[1], self.scale9Size_[2]))
+        if self.scale9_ then
+            self.barSprite_:setContentSize(cc.size(self.scale9Size_[1], self.scale9Size_[2]))
+            self:setFgBarSize_(cc.size(self.scale9Size_[1], self.scale9Size_[2]))
+        else
+            self:setContentSizeAndScale_(self.barSprite_, cc.size(self.scale9Size_[1], self.scale9Size_[2]))
+            self:setContentSizeAndScale_(self.barfgSprite_, cc.size(self.scale9Size_[1], self.scale9Size_[2]))
+        end
     end
     return self
 end
@@ -374,6 +381,8 @@ function UISlider:updateButtonPosition_()
 
     local x, y = 0, 0
     local barSize = self.barSprite_:getContentSize()
+    barSize.width = barSize.width * self.barSprite_:getScaleX()
+    barSize.height = barSize.height * self.barSprite_:getScaleY()
     local buttonSize = self.buttonSprite_:getContentSize()
     local offset = (self.value_ - self.min_) / (self.max_ - self.min_)
     local ap = self:getAnchorPoint()
@@ -384,10 +393,22 @@ function UISlider:updateButtonPosition_()
         self.buttonPositionRange_.length = barSize.width - buttonSize.width
         self.buttonPositionRange_.min = x + buttonSize.width / 2
         self.buttonPositionRange_.max = self.buttonPositionRange_.min + self.buttonPositionRange_.length
+        
+        local lbPos = cc.p(0, 0)
+        if self.barfgSprite_ and self.scale9Size_ then
+            self:setContentSizeAndScale_(self.barfgSprite_, cc.size(offset * self.buttonPositionRange_.length, self.scale9Size_[2]))
+            lbPos = self:getbgSpriteLeftBottomPoint_()
+        end
         if self.direction_ == display.LEFT_TO_RIGHT then
             x = self.buttonPositionRange_.min + offset * self.buttonPositionRange_.length
         else
+            if self.barfgSprite_ and self.scale9Size_ then
+                lbPos.x = lbPos.x + (1-offset)*self.buttonPositionRange_.length
+            end
             x = self.buttonPositionRange_.min + (1 - offset) * self.buttonPositionRange_.length
+        end
+        if self.barfgSprite_ and self.scale9Size_ then
+            self.barfgSprite_:setPosition(lbPos)
         end
     else
         x = x - barSize.width * (0.5 - ap.x)
@@ -395,10 +416,24 @@ function UISlider:updateButtonPosition_()
         self.buttonPositionRange_.length = barSize.height - buttonSize.height
         self.buttonPositionRange_.min = y + buttonSize.height / 2
         self.buttonPositionRange_.max = self.buttonPositionRange_.min + self.buttonPositionRange_.length
+
+        local lbPos = cc.p(0, 0)
+        if self.barfgSprite_ and self.scale9Size_ then
+            self:setContentSizeAndScale_(self.barfgSprite_, cc.size(self.scale9Size_[1], offset * self.buttonPositionRange_.length))
+            lbPos = self:getbgSpriteLeftBottomPoint_()
+        end
         if self.direction_ == display.TOP_TO_BOTTOM then
             y = self.buttonPositionRange_.min + (1 - offset) * self.buttonPositionRange_.length
+            if self.barfgSprite_ and self.scale9Size_ then
+                lbPos.y = lbPos.y + (1-offset)*self.buttonPositionRange_.length
+            end
         else
             y = self.buttonPositionRange_.min + offset * self.buttonPositionRange_.length
+            if self.barfgSprite_ then
+            end
+        end
+        if self.barfgSprite_ and self.scale9Size_ then
+            self.barfgSprite_:setPosition(lbPos)
         end
     end
 
@@ -409,8 +444,10 @@ function UISlider:updateImage_()
     local state = self.fsm_:getState()
 
     local barImageName = "bar"
+    local barfgImageName = "barfg"
     local buttonImageName = "button"
     local barImage = self.images_[barImageName]
+    local barfgImage = self.images_[barfgImageName]
     local buttonImage = self.images_[buttonImageName]
     if state ~= "normal" then
         barImageName = barImageName .. "_" .. state
@@ -441,6 +478,9 @@ function UISlider:updateImage_()
                 end
             else
                 self.barSprite_ = display.newSprite(barImage)
+                if self.scale9Size_ then
+                    self:setContentSizeAndScale_(self.barSprite_, cc.size(self.scale9Size_[1], self.scale9Size_[2]))
+                end
             end
             self:addChild(self.barSprite_, UISlider.BAR_ZORDER)
         end
@@ -449,6 +489,21 @@ function UISlider:updateImage_()
         self.barSprite_:setPosition(0, 0)
     else
         printError("UISlider:updateImage_() - not set bar image for state %s", state)
+    end
+
+    if barfgImage then
+        if not self.barfgSprite_ then
+            if self.scale9_ then
+                self.barfgSprite_ = display.newScale9Sprite(barfgImage)
+                self.barfgSprite_:setContentSize(cc.size(self.scale9Size_[1], self.scale9Size_[2]))
+            else
+                self.barfgSprite_ = display.newSprite(barfgImage)
+            end
+
+            self:addChild(self.barfgSprite_, UISlider.BARFG_ZORDER)
+            self.barfgSprite_:setAnchorPoint(cc.p(0, 0))
+            self.barfgSprite_:setPosition(self.barSprite_:getPosition())
+        end
     end
 
     if buttonImage then
@@ -474,5 +529,42 @@ function UISlider:onChangeState_(event)
         self:updateImage_()
     end
 end
+
+function UISlider:setFgBarSize_(size)
+    if not self.barfgSprite_ then
+        return
+    end
+    self.barfgSprite_:setContentSize(size)
+end
+
+function UISlider:getbgSpriteLeftBottomPoint_()
+    if not self.barSprite_ then
+        return cc.p(0, 0)
+    end
+
+    local posX, posY = self.barSprite_:getPosition()
+    local size = self.barSprite_:getBoundingBox()
+    local ap = self.barSprite_:getAnchorPoint()
+    posX = posX - size.width*ap.x
+    posY = posY - size.height*ap.y
+
+    local point = cc.p(posX, posY)
+    return point
+end
+
+function UISlider:setContentSizeAndScale_(node, s)
+    if not node then
+        return
+    end
+
+    local size = node:getContentSize()
+    local scaleX
+    local scaleY
+    scaleX = s.width/size.width
+    scaleY = s.height/size.height
+    node:setScaleX(scaleX)
+    node:setScaleY(scaleY)
+end
+
 
 return UISlider

@@ -646,7 +646,7 @@ local sprite = display.newScale9Sprite("Box.png", 0, 0, cc.size(400, 300))
 
 ]]
 function display.newScale9Sprite(filename, x, y, size, capInsets)
-    return display.newSprite(filename, x, y, {class = cc.Scale9Sprite, size = size, capInsets = capInsets})
+    return display.newSprite(filename, x, y, {class = ccui.Scale9Sprite, size = size, capInsets = capInsets})
 end
 
 --[[--

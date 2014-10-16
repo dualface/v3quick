@@ -1,2 +1,2 @@
 
-luaoc = require("luaoc")
+luaoc = require("cocos.cocos2d.luaoc")
