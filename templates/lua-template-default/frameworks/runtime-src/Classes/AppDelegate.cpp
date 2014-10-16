@@ -33,24 +33,15 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     auto engine = LuaEngine::getInstance();
     ScriptEngineManager::getInstance()->setScriptEngine(engine);
-    LuaStack *stack = engine->getLuaStack();
-    lua_State* L = stack->getLuaState();
+    lua_State* L = engine->getLuaStack()->getLuaState();
     lua_module_register(L);
-#if CC_ENABLE_QUICK_LUA
-    FileUtils::getInstance()->setPopupNotify(false);
-    const char * key = "test";
-    const char * sign = "XT";
-    stack->setXXTEAKeyAndSign(key, strlen(key), sign, strlen(sign));
-    stack->loadChunksFromZIP("res/framework_quick.zip");
-    stack->addSearchPath("src");
-    if (engine->executeScriptFile("main.lua")) {
-        return false;
-    }
-#else
+
+    // If you want to use Quick-Cocos2d-X, please uncomment below code
+    // register_all_quick_manual(L);
+
     if (engine->executeScriptFile("src/main.lua")) {
         return false;
     }
-#endif
 
     return true;
 }
