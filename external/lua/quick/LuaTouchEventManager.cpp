@@ -256,7 +256,11 @@ void LuaTouchEventManager::onTouchesBegan(const std::vector<Touch*>& touches, Ev
         {
             ret = node->ccTouchBegan(touchTarget->findTouch(touches), event);
         }
-
+        
+        if (!_running) {
+            return;
+        }
+        
         if (ret)
         {
             _touchingTargets.pushBack(touchTarget);
