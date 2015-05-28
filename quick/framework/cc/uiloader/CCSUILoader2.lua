@@ -182,6 +182,8 @@ function CCSUILoader:createUINode(clsName, options, parent)
 		node = self:createPageView(options)
 	elseif clsName == "ProjectNode" then
 		node = self:createProjectNode(options)
+	elseif clsName == "Layer" then
+        node = self:createLayer(options)
 	else
 		printInfo("CCSUILoader not support node:" .. clsName)
 	end
@@ -349,6 +351,19 @@ function CCSUILoader:createNode(options)
 	return node
 end
 
+function CCSUILoader:createLayer(options)
+    local node = cc.Layer:create()
+    if options.Size then
+        node:setContentSize(cc.size(options.Size.X or 0, options.Size.Y or 0))
+    end
+    node:setPositionX(options.Position.X or 0)
+    node:setPositionY(options.Position.Y or 0)
+    node:setAnchorPoint(
+        cc.p(options.AnchorPoint.ScaleX or 0, options.AnchorPoint.ScaleY or 0))
+
+    return node
+end
+
 function CCSUILoader:createSprite(options)
 	local node = display.newSprite(self:transResName(options.FileData))
 	if options.Size then
@@ -416,7 +431,7 @@ function CCSUILoader:createButton(options)
 		node:setButtonLabel(
 			cc.ui.UILabel.new({text = options.ButtonText,
 				size = options.FontSize,
-				font = options.fontName,
+				font = options.FontResource and options.FontResource.Path,
 				color = cc.c3b(options.TextColor.R, options.TextColor.G, options.TextColor.B)}))
 	end
 	if options.Size then
@@ -788,7 +803,7 @@ function CCSUILoader:prettyJson(json)
 			node.Size.X = parent.Size.X * node.PreSize.X
 			node.Size.Y = parent.Size.Y * node.PreSize.Y
 		end
-
+		node.AnchorPoint = node.AnchorPoint or {} 
 		if not node.children then
 			return
 		end

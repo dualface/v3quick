@@ -88,19 +88,21 @@ end
 测试一个点是否在当前结点区域中
 
 @param tabel point cc.p的点位置,世界坐标
-@param boolean bCascade 是否用结点的所有子结点共同区域计算还是只用本身的区域
+@param boolean isCascade 是否用结点的所有子结点共同区域计算还是只用本身的区域
 
 @return boolean 是否在结点区域中
 
 ]]
-function Node:hitTest(point, bCascade)
+function Node:hitTest(point, isCascade)
     local nsp = self:convertToNodeSpace(point)
     local rect
-    if bCascade then
+    if isCascade then
         rect = self:getCascadeBoundingBox()
     else
         rect = self:getBoundingBox()
     end
+    rect.x = 0
+    rect.y = 0
 
     if cc.rectContainsPoint(rect, nsp) then
         return true

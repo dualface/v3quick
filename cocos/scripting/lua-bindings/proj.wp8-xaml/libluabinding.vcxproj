@@ -1292,6 +1292,7 @@
       <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsWinRT>
     </ClCompile>
     <ClCompile Include="..\..\..\..\external\xxtea\xxtea.cpp" />
+    <ClCompile Include="..\..\..\..\external\xxtea\xxtea_file.cpp" />
     <ClCompile Include="..\auto\lua_cocos2dx_3d_auto.cpp" />
     <ClCompile Include="..\auto\lua_cocos2dx_assetsmanager_auto.cpp" />
     <ClCompile Include="..\auto\lua_cocos2dx_audioengine_auto.cpp" />

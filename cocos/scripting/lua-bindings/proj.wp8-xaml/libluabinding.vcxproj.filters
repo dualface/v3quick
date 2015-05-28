@@ -302,6 +302,9 @@
     <ClCompile Include="..\manual\cocostudio\lua_cocos2dx_csloader_manual.cpp">
       <Filter>scripting\luabinding\manual</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\external\xxtea\xxtea_file.cpp">
+      <Filter>external\xxtea</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
