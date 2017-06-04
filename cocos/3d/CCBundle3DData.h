@@ -148,6 +148,7 @@ struct MeshData
     int vertexSizeInFloat;
     std::vector<IndexArray> subMeshIndices;
     std::vector<std::string> subMeshIds; //subMesh Names (since 3.3)
+	std::vector<std::string> subMeshTyps;//subMesh Types (un use,just for future plan)
     std::vector<AABB> subMeshAABB;
     int numIndex;
     std::vector<MeshVertexAttrib> attribs;
@@ -320,11 +321,19 @@ struct NTextureData
         Transparency = 9,
         Reflection = 10
     };
-     std::string id;
-     std::string filename;
-     Usage type;
-     GLenum wrapS;
-     GLenum wrapT;
+	std::string id;
+	std::string filename;
+	Usage type;
+	GLenum wrapS;
+	GLenum wrapT;
+	float uvr[4];
+	NTextureData()
+	{
+		uvr[0] = 0;
+		uvr[1] = 0;
+		uvr[2] = 1;
+		uvr[3] = 1;
+	}
 } ;
 struct NMaterialData
 {
@@ -335,6 +344,10 @@ struct NMaterialData
 	float opacity;
 	float specular[3];
 	float shininess;
+	float reflectance;
+	float density;
+	float sharpness;
+	float illum;
 	std::vector<NTextureData> textures;
     const NTextureData* getTextureData(const NTextureData::Usage& type) const
     {
@@ -345,6 +358,28 @@ struct NMaterialData
         }
         return nullptr;
     }
+	NMaterialData()
+	{
+		//obj spec
+		ambient[0] = 1.0;//ka
+		ambient[1] = 1.0;
+		ambient[2] = 1.0;
+		diffuse[0] = 0.64;//kd
+		diffuse[1] = 0.64;
+		diffuse[2] = 0.64;
+		emissive[0] = 0.0;//ke
+		emissive[1] = 0.0;
+		emissive[2] = 0.0;
+		opacity = 1.0;//d=dissolve
+		specular[0] = 0.5;//ks
+		specular[1] = 0.5;
+		specular[2] = 0.5;
+		shininess = 1.0;//
+		reflectance = 0;//0~1000
+		density = 1.0;//0.001~10  == ptical density ,glass is 1.5  ==  index of refraction  == ior == transmittance  == penetration 
+		sharpness = 60;//0~1000
+		illum = 0;//0~10
+	}
 };
 /** material datas, since 3.3 
 * @js NA
