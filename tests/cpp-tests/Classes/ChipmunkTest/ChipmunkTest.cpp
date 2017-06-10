@@ -145,7 +145,6 @@ void ChipmunkTest::initPhysics()
         cpv(VisibleRect::rightTop().x, VisibleRect::rightTop().y), 0.0f);
 
     for( int i=0;i<4;i++) {
-        
         cpShapeSetElasticity(_walls[i], 1.0f);
         cpShapeSetFriction(_walls[i], 1.0f);
         cpSpaceAddShape(_space, _walls[i]);
