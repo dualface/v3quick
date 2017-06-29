@@ -33,7 +33,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "js-tests", "..\tests\js-tes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "performance-tests", "..\tests\performance-tests\proj.win32\performance-tests.vcxproj", "{2778C02D-DDD0-4A92-A6AA-C3E2B7EDE3FF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{998B5EC7-D335-484A-ADAA-82560B35A40C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cocos2dx", "cocos2dx", "{998B5EC7-D335-484A-ADAA-82560B35A40C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chipmunk", "..\external\Chipmunk-7.0.1\msvc\vc13\chipmunk\chipmunk.vcxproj", "{C1ACE86E-5A14-490A-9678-104BA2546723}"
 EndProject
